@@ -14,36 +14,34 @@
 <body>
     <div class="container">
         <h1 class="mb-4">飲み会座席決定アプリ</h1>
-        <form id="seatingForm">
-            <form id="seatingForm" method="POST">
-                <div id="participants" class="mb-3">
-                    <!-- 参加者情報入力欄がここに挿入されます -->
-                </div>
-                <button type="button" class="btn btn-primary mb-3" onclick="addParticipant()">参加者追加</button>
-    
-                <div id="goodPairs" class="mb-3">
-                    <h3>仲の良いペア</h3>
-                    <!-- 仲の良いペアの入力フィールドがここに挿入されます -->
-                </div>
-                <button type="button" class="btn btn-info mb-3" id="addGoodPair">仲の良いペア追加</button>
-                
-                <div id="badPairs" class="mb-3">
-                    <h3>仲の悪いペア</h3>
-                    <!-- 仲の悪いペアの入力フィールドがここに挿入されます -->
-                </div>
-                <button type="button" class="btn btn-info mb-3" id="addBadPair">仲の悪いペア追加</button>
-    
-                <div class="mb-3">
-                    <label>テーブル数:</label>
-                    <input type="number" name="num_tables" class="form-control" required>
-                </div>
-                <div class="mb-3">
-                    <label>各テーブルの席数:</label>
-                    <input type="text" name="table_capacities" class="form-control" required>
-                </div>
-                <input type="submit" class="btn btn-success" value="座席決定">
-                <button type="button" class="btn btn-danger" id="clearResultButton" style="display:none;">結果削除</button>
-            </form>
+        <form id="seatingForm" method="POST">
+            <div id="participants" class="mb-3">
+                <!-- 参加者情報入力欄がここに挿入されます -->
+            </div>
+            <button type="button" class="btn btn-primary mb-3" id="addParticipant">参加者追加</button>
+
+            <div id="goodPairs" class="mb-3">
+                <h3>仲の良いペア</h3>
+                <!-- 仲の良いペアの入力フィールドがここに挿入されます -->
+            </div>
+            <button type="button" class="btn btn-info mb-3" id="addGoodPair">仲の良いペア追加</button>
+            
+            <div id="badPairs" class="mb-3">
+                <h3>仲の悪いペア</h3>
+                <!-- 仲の悪いペアの入力フィールドがここに挿入されます -->
+            </div>
+            <button type="button" class="btn btn-info mb-3" id="addBadPair">仲の悪いペア追加</button>
+
+            <div class="mb-3">
+                <label>テーブル数:</label>
+                <input type="number" name="num_tables" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label>各テーブルの席数:</label>
+                <input type="text" name="table_capacities" class="form-control" required>
+            </div>
+            <input type="submit" class="btn btn-success" value="座席決定">
+            <button type="button" class="btn btn-danger" id="clearResultButton" style="display:none;">結果削除</button>
         </form>
 
         <div id="result" class="mt-3">
@@ -52,18 +50,270 @@
     </div>
 
     <script>
-        // JavaScriptのロジックをここに記述
-        // 例: フォーム送信時のダミー結果表示
-        $(document).ready(function() {
-            $("#seatingForm").submit(function(event) {
-                event.preventDefault(); // フォームのデフォルトの送信を防止
+        function addParticipant() {
+            const participantsDiv = document.getElementById("participants");
+            const newIndex = document.querySelectorAll('.participant-input').length + 1;
+            const participantHTML = `
+                <div class="participant-input">
+                    名前: <input type="text" name="name${newIndex}" required>
+                    性別: <select name="gender${newIndex}" required>
+                        <option value="">選択...</option>
+                        <option value="男性">男性</option>
+                        <option value="女性">女性</option>
+                        <option value="その他">その他</option>
+                    </select>
+                    部署: <input type="text" name="department${newIndex}" required>
+                    キャリア: <input type="number" name="career${newIndex}" min="0" required>
+                </div>
+            `;
+            participantsDiv.insertAdjacentHTML('beforeend', participantHTML);
+        }
+        function addPair(pairType) { // pairTypeは 'good' または 'bad' の文字列
+            const pairsDiv = document.getElementById(`${pairType}Pairs`);
+            const newIndex = document.querySelectorAll(`.${pairType}-pair-input`).length + 1;
+            const pairHTML = `
+                <div class="${pairType}-pair-input">
+                    名前1: <input type="text" name="${pairType}Name1_${newIndex}" required>
+                    名前2: <input type="text" name="${pairType}Name2_${newIndex}" required>
+                </div>
+            `;
+            pairsDiv.insertAdjacentHTML('beforeend', pairHTML);
+        }
 
-                // ここにクライアントサイドの処理を実装
-                // フォームデータを集めて、何らかの処理を行う
-                // 結果を表示
-                $("#result").html("<div>ダミー結果: テーブル1: 太郎、花子</div>");
+        document.getElementById("addGoodPair").addEventListener("click", () => addPair('good'));
+        document.getElementById("addBadPair").addEventListener("click", () => addPair('bad'));
+
+        document.getElementById("addParticipantButton").addEventListener("click", addParticipant);
+
+        class Person {
+            constructor(name, gender, department, career) {
+                this.name = name;
+                this.gender = gender;
+                this.department = department;
+                this.career = career;
+            }
+        }
+        
+        class Table {
+            constructor(capacity) {
+                this.capacity = capacity;
+                this.seats = [];
+            }
+        
+            addPerson(person) {
+                if (this.seats.length < this.capacity) {
+                    this.seats.push(person);
+                } else {
+                    console.log("Table is full");
+                }
+            }
+        }
+        
+        // この関数は、親和性行列やテーブルへの人の割り当てなど、必要なデータ構造を作成します。
+        function setupOptimization(people) {
+            // 人々のリスト、テーブルのリスト、親和性行列などを設定する
+        }
+        
+        // 親和性行列の生成
+        function generateAffinityMatrix(people) {
+            const size = people.length;
+            const matrix = Array.from({ length: size }, () => Array(size).fill(0));
+
+            for (let i = 0; i < size; i++) {
+                for (let j = 0; j < size; j++) {
+                    if (i === j) continue; // 同一人物の比較をスキップ
+                    const person1 = people[i];
+                    const person2 = people[j];
+
+                    // 部署が異なる場合のスコア
+                    if (person1.department !== person2.department) {
+                        matrix[i][j] += 20;
+                    }
+
+                    // キャリアの差に応じたスコア
+                    const careerDiff = Math.abs(person1.career - person2.career);
+                    if (careerDiff === 1) {
+                        matrix[i][j] += 3;
+                    } else if (careerDiff >= 10) {
+                        matrix[i][j] += 5;
+                    } else {
+                        matrix[i][j] += 10;
+                    }
+                }
+            }
+
+            return matrix;
+        }
+
+        // コスト計算関数の実装
+        function calculateCost(tables, affinityMatrix, people) {
+            let totalCost = 0;
+
+            tables.forEach(table => {
+                table.seats.forEach((person, i) => {
+                    const nextIndex = (i + 1) % table.seats.length;
+                    const nextPerson = table.seats[nextIndex];
+                    const personIndex = people.indexOf(person);
+                    const nextPersonIndex = people.indexOf(nextPerson);
+
+                    // 隣同士の人物に対するコスト
+                    totalCost += 2 * affinityMatrix[personIndex][nextPersonIndex];
+
+                    // テーブル内の他の全員とのコスト
+                    for (let j = i + 1; j < table.seats.length; j++) {
+                        const otherPerson = table.seats[j];
+                        const otherPersonIndex = people.indexOf(otherPerson);
+                        totalCost += affinityMatrix[personIndex][otherPersonIndex];
+                    }
+                });
             });
-        });
+
+            return totalCost;
+        }
+
+        function simulatedAnnealing(tables, affinityMatrix, people, iterations, initialTemp, coolingRate) {
+            let currentSolution = tables;
+            let currentCost = calculateCost(tables, affinityMatrix, people);
+            let bestSolution = currentSolution;
+            let bestCost = currentCost;
+            let temp = initialTemp;
+
+            for (let i = 0; i < iterations; i++) {
+                let newSolution = generateNewSolution(currentSolution, people);
+                let newCost = calculateCost(newSolution, affinityMatrix, people);
+
+                if (acceptanceProbability(currentCost, newCost, temp) > Math.random()) {
+                    currentSolution = newSolution;
+                    currentCost = newCost;
+
+                    if (newCost < bestCost) {
+                        bestSolution = newSolution;
+                        bestCost = newCost;
+                    }
+                }
+
+                temp *= coolingRate;
+            }
+
+            return { bestSolution, bestCost };
+        }
+
+        function acceptanceProbability(oldCost, newCost, temperature) {
+            if (newCost < oldCost) {
+                return 1.0;
+            } else {
+                return Math.exp((oldCost - newCost) / temperature);
+            }
+        }
+
+        function generateNewSolution(currentSolution, people) {
+            // 深いコピーを作成して新しい解を生成
+            let newSolution = JSON.parse(JSON.stringify(currentSolution));
+
+            // 簡単のため、2つの席をランダムに選んで交換
+            let table1 = newSolution[Math.floor(Math.random() * newSolution.length)];
+            let table2 = newSolution[Math.floor(Math.random() * newSolution.length)];
+            if (table1.seats.length > 0 && table2.seats.length > 0) {
+                let seat1 = Math.floor(Math.random() * table1.seats.length);
+                let seat2 = Math.floor(Math.random() * table2.seats.length);
+
+                // 席を交換
+                [table1.seats[seat1], table2.seats[seat2]] = [table2.seats[seat2], table1.seats[seat1]];
+            }
+
+            return newSolution;
+        }
+
+        // 実際に最適化を実行する関数
+        function runOptimization() {
+            let people = [/* 人々のデータを準備する */];
+            let tables = [/* テーブルのデータを準備する */];
+            let affinityMatrix = [/* 親和性行列を準備する */];
+        
+            let optimizedTables = simulatedAnnealing(tables, affinityMatrix, people, 100000, 100.0, 0.999);
+            // 最適化されたテーブルとコストを表示または使用する
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            function collectPeopleData() {
+                const people = [];
+                document.querySelectorAll('.participant-input').forEach((participantDiv, index) => {
+                    const name = participantDiv.querySelector(`input[name="name${index+1}"]`).value;
+                    const gender = participantDiv.querySelector(`select[name="gender${index+1}"]`).value;
+                    const department = participantDiv.querySelector(`input[name="department${index+1}"]`).value;
+                    const career = parseInt(participantDiv.querySelector(`input[name="career${index+1}"]`).value, 10);
+                    people.push(new Person(name, gender, department, career));
+                });
+                return people;
+            }
+
+            function collectTableData() {
+                const numTables = parseInt(document.querySelector('input[name="num_tables"]').value, 10);
+                const tableCapacities = document.querySelector('input[name="table_capacities"]').value.split(',').map(capacity => parseInt(capacity, 10));
+                const tables = tableCapacities.map(capacity => new Table(capacity));
+                return { tables, tableCapacities };
+            }
+
+            function displayResults(bestSolution, bestCost) {
+                const resultDiv = document.getElementById('result');
+                resultDiv.innerHTML = ''; // 結果表示エリアをクリア
+
+                bestSolution.forEach((table, index) => {
+                    const tableDiv = document.createElement('div');
+                    tableDiv.textContent = `Table ${index + 1}: ${table.seats.map(person => person.name).join(', ')}`;
+                    resultDiv.appendChild(tableDiv);
+                });
+
+                const costDiv = document.createElement('div');
+                costDiv.textContent = `Total Cost: ${bestCost}`;
+                resultDiv.appendChild(costDiv);
+            }
+
+            document.getElementById('seatingForm').addEventListener('submit', function(event) {
+                event.preventDefault();
+
+                // 人々のデータとテーブルの情報を収集
+                const people = collectPeopleData();
+                const { tables } = collectTableData();
+
+                // 仮に、ここで親和性行列や最適化関数が実際に動作すると仮定します。
+                const affinityMatrix = generateAffinityMatrix(people);
+                const { bestSolution, bestCost } = simulatedAnnealing(tables, affinityMatrix, people, 1000, 100.0, 0.99);
+
+                // 結果の表示
+                displayResults(bestSolution, bestCost);
+            });
+
+                const formData = new FormData(event.target);
+                const people = [];
+                const numTables = parseInt(formData.get('num_tables'), 10);
+                const tableCapacities = formData.get('table_capacities').split(',').map(capacity => parseInt(capacity, 10));
+        
+                // formDataからPersonインスタンスを生成
+                for(let entry of formData.entries()) {
+                    const [key, value] = entry;
+                    if(key.startsWith('name')) {
+                        const index = key.match(/\d+/)[0]; // name1, name2, ...から数字を抽出
+                        const person = new Person(
+                            value,
+                            formData.get(`gender${index}`),
+                            formData.get(`department${index}`),
+                            parseInt(formData.get(`career${index}`), 10)
+                        );
+                        people.push(person);
+                    }
+                }
+        
+                // Tableインスタンスの生成
+                const tables = tableCapacities.map(capacity => new Table(capacity));
+        
+                // ここで、optimizeSeatingなどの関数を呼び出して、最適化処理を実行
+                const affinityMatrix = generateAffinityMatrix(people);
+                const { bestSolution, bestCost } = simulatedAnnealing(tables, affinityMatrix, people, 1000, 100.0, 0.99);
+                
+                // 結果をHTMLに表示
+                document.getElementById('result').innerHTML = '結果のHTML表現';
+            });
     </script>
 </body>
 </html>
