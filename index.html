@@ -34,7 +34,7 @@
         <h3 class="mb-4">メタヒューリスティクスを用いてシーンに合わせた最適なグループ分けを実現します</h3>
         <form id="seatingForm">
             <div class="mb-3">
-                <label for="modeSelect">最適化モード選択:</label>
+                <label for="modeSelect">最適化モード選択</label>
                 <select id="modeSelect" class="form-control">
                     <option value="minimize">仲良しで固まりたい！</option>
                     <option value="maximize">仲良くない人と集まりたい！</option>
@@ -50,23 +50,23 @@
                 <h3>仲良し度の高いペア</h3>
                 <!-- 仲の良いペアの入力フィールドがここに挿入されます -->
             </div>
-            <button type="button" class="btn btn-info mb-3" id="addGoodPair">高仲良し度ペア追加</button>
+            <button type="button" class="btn btn-info mb-3" id="addGoodPair">ペア追加</button>
             
             <div id="badPairs" class="mb-3">
                 <h3>仲良し度の低いペア</h3>
                 <!-- 仲の悪いペアの入力フィールドがここに挿入されます -->
             </div>
-            <button type="button" class="btn btn-info mb-3" id="addBadPair">低仲良し度ペア追加</button>
+            <button type="button" class="btn btn-info mb-3" id="addBadPair">ペア追加</button>
 
             <div class="mb-3">
-                <label>テーブル数(半角整数)</label>
+                <label>グループ数(半角整数)</label>
                 <input type="number" name="num_tables" class="form-control" required>
             </div>
             <div class="mb-3">
-                <label>各テーブルの席数(例:3,4,5)</label>
+                <label>各グループの人数(例:3,4,5)</label>
                 <input type="text" name="table_capacities" class="form-control" required>
             </div>
-            <input type="submit" class="btn btn-success" value="座席決定">
+            <input type="submit" class="btn btn-success" value="計算開始">
             <button type="button" class="btn btn-danger" id="clearResults" style="display: none;">クリア</button>            
         </form>
 
