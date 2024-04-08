@@ -154,20 +154,21 @@
             const participantsDiv = document.getElementById("participants");
             const newIndex = document.querySelectorAll('.participant-input').length + 1;
             const participantHTML = `
-            <div class="input-group">
-                名前: <input type="text" name="name1" required>
-                部署: <input type="text" name="department1" required>
-                年次: <input type="number" name="career1" min="0" required>
-                <button type="button" class="delete-button" onclick="this.parentNode.remove();">✕</button>
-            </div>
+                <div class="input-group">
+                    名前: <input type="text" name="name${newIndex}" required>
+                    部署: <input type="text" name="department${newIndex}" required>
+                    年次: <input type="number" name="career${newIndex}" min="0" required>
+                    <button type="button" class="delete-button">✕</button>
+                </div>
             `;
-            participantsDiv.insertAdjacentHTML('beforeend', participantHTML);
-
-            // 削除ボタンのイベントリスナーにもupdateParticipantCountを呼び出す処理を追加
-            participantHTML.querySelector('.delete-button').addEventListener('click', function() {
+            const div = document.createElement('div');
+            div.innerHTML = participantHTML;
+            const deleteButton = div.querySelector('.delete-button');
+            deleteButton.addEventListener('click', function() {
                 this.parentNode.remove();
                 updateParticipantCount(); // 参加者数を更新
             });
+            participantsDiv.appendChild(div.firstChild);
 
             updateParticipantCount(); // 参加者数を更新
         }
