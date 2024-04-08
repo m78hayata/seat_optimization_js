@@ -196,22 +196,21 @@
         }
 
         function generateNewSolution(currentSolution, people) {
-            // 深いコピーを作成して新しい解を生成
-            let newSolution = JSON.parse(JSON.stringify(currentSolution));
+            // 新しい解のスケルトンを作成
+            let newSolution = currentSolution.map(table => new Table(table.capacity));
 
-            // 簡単のため、2つの席をランダムに選んで交換
-            let table1 = newSolution[Math.floor(Math.random() * newSolution.length)];
-            let table2 = newSolution[Math.floor(Math.random() * newSolution.length)];
-            if (table1.seats.length > 0 && table2.seats.length > 0) {
-                let seat1 = Math.floor(Math.random() * table1.seats.length);
-                let seat2 = Math.floor(Math.random() * table2.seats.length);
+            // 人々をランダムにテーブルに割り当てる（シンプルな例として）
+            people.forEach(person => {
+                const tableIndex = Math.floor(Math.random() * newSolution.length);
+                newSolution[tableIndex].addPerson(person);
+            });
 
-                // 席を交換
-                [table1.seats[seat1], table2.seats[seat2]] = [table2.seats[seat2], table1.seats[seat1]];
-            }
+            // ここに席の交換ロジックを適用することも可能ですが、
+            // この例ではシンプルさを保つために省略しています。
 
             return newSolution;
         }
+
 
         document.addEventListener('DOMContentLoaded', function() {
             document.getElementById("addParticipant").addEventListener("click", addParticipant);
