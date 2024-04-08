@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>グループ分け最適化サイト</title>
+    <title>飲み会席決め最適化サイト</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
@@ -75,14 +75,15 @@
 </head>
 <body>
     <div class="container">
-        <h1 class="mb-4">グループ分け最適化サイト</h1>
-        <h5 class="mb-4">メタヒューリスティクスを用いた数理最適化によってシーンに合わせた最適なグループ分けを実現します</h5>
+        <h1 class="mb-4">飲み会席決め最適化サイト</h1>
+        <span class="mb-4">メタヒューリスティクスを用いた数理最適化によってシーンに合わせた最適な座席割り振りを実現します</span>
         <form id="seatingForm">
             <div class="mb-3">
                 <label for="modeSelect" class="form-label">最適化モード選択</label>
                 <select id="modeSelect" class="form-select">
-                    <option value="minimize">仲良しで固まりたい！</option>
-                    <option value="maximize">仲良くない人との仲を深めたい！</option>
+                    <option value="minimize_department">同じ部署で集まりたい！</option>
+                    <option value="minimize_career">年次の近い人同士で固まりたい！</option>
+                    <option value="maximize">まだ仲良くない人との仲を深めたい！</option>
                     <option value="random">ランダムに決めたい！</option>
                 </select>
             </div>
@@ -178,9 +179,20 @@
         }
         
         // 親和性行列の生成
-        function generateAffinityMatrix(people, goodPairs, badPairs) {
+        function generateAffinityMatrix(people, goodPairs, badPairs, mode) {
             const size = people.length;
             const matrix = Array.from({ length: size }, () => Array(size).fill(0));
+
+            if (mode == "minimize_department") {
+                department_cost = 100;
+                career_cost = 20;
+            } else if (mode == "minimize_career") {
+                department_cost = 20;
+                career_cost = 100;
+            } else if (mode == "maximize") {
+                department_cost = 60;
+                career_cost = 60;
+            }
 
             for (let i = 0; i < size; i++) {
                 for (let j = 0; j < size; j++) {
@@ -190,19 +202,19 @@
 
                     // 部署が異なる場合のスコア
                     if (person1.department !== person2.department) {
-                        matrix[i][j] += 50;
+                        matrix[i][j] += department_cost;
                     }
 
                     // キャリアの差に応じたスコア
                     const careerDiff = Math.abs(person1.career - person2.career);
                     if (careerDiff > 30) {
-                        matrix[i][j] += 30;
+                        matrix[i][j] += career_cost*1.0;
                     } else if (careerDiff > 20) {
-                        matrix[i][j] += 20;
+                        matrix[i][j] += career_cost*0.8;
                     } else if (careerDiff > 10) {
-                        matrix[i][j] += 10;
+                        matrix[i][j] += career_cost*0.6;
                     } else if (careerDiff > 5) {
-                        matrix[i][j] += 5;
+                        matrix[i][j] += career_cost*0.4;
                     }
                 }
             }
@@ -309,7 +321,7 @@
                     currentCost = newCost;
 
                     // モードに応じて最適な解を更新
-                    if ((mode === "minimize" && newCost < bestCost) || (mode === "maximize" && newCost > bestCost)) {
+                    if ((mode === ("minimize_department" || "minimize_career") && newCost < bestCost) || (mode === "maximize" && newCost > bestCost)) {
                         bestSolution = newSolution.slice();
                         bestCost = newCost;
                     }
@@ -430,7 +442,7 @@
                 const goodPairs = collectGoodPairs();
                 const badPairs = collectBadPairs();
                 const { tables } = collectTableData();
-                const affinityMatrix = generateAffinityMatrix(people, goodPairs, badPairs);
+                const affinityMatrix = generateAffinityMatrix(people, goodPairs, badPairs, mode);
                 // 計算処理を非同期で実行する場合（例: setTimeoutを使用して非同期処理のシミュレート）
                 setTimeout(() => {
                     const initialSolution = createInitialSolution(people, tables);
