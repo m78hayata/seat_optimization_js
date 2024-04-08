@@ -8,6 +8,15 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
         @media (max-width: 768px) {
+            .input-group {
+                flex-direction: row; /* スマートフォン表示でも横並びにする */
+                flex-wrap: nowrap; /* 折り返さない */
+            }
+
+            .input-group input,
+            .input-group .delete-button {
+                width: auto; /* 入力欄の幅を自動調整 */
+            }
             .form-control, .btn {
                 width: 100%;
                 margin-top: 10px;
@@ -47,6 +56,36 @@
             }
         }
         /* スタイルの基本設定 */
+        .input-group {
+            display: flex;
+            flex-wrap: wrap; /* コンテンツが多い場合に折り返す */
+            align-items: center;
+            gap: 10px; /* 入力フィールド間のスペース */
+        }
+
+        .input-group input[type="text"],
+        .input-group input[type="number"] {
+            flex: 1; /* 入力フィールドを均等に拡大縮小 */
+        }
+
+        /* 名前欄は少し幅を広く取る */
+        .input-group input[type="text"][name^="name"] {
+            flex: 2;
+        }
+
+        /* 部署と年次は幅を狭める */
+        .input-group input[type="text"][name^="department"],
+        .input-group input[type="number"][name^="career"] {
+            flex: 1;
+        }
+
+        /* 削除ボタンはサイズを固定 */
+        .delete-button {
+            flex-shrink: 0;
+            width: 30px;
+            height: 30px;
+        }
+
         .input-group {
             display: flex;
             align-items: center;
