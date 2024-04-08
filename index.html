@@ -50,6 +50,29 @@
     </div>
 
     <script>
+        class Person {
+            constructor(name, gender, department, career) {
+                this.name = name;
+                this.gender = gender;
+                this.department = department;
+                this.career = career;
+            }
+        }
+        class Table {
+            constructor(capacity) {
+                this.capacity = capacity;
+                this.seats = [];
+            }
+        
+            addPerson(person) {
+                if (this.seats.length < this.capacity) {
+                    this.seats.push(person);
+                } else {
+                    console.log("Table is full");
+                }
+            }
+        }
+        
         function addParticipant() {
             const participantsDiv = document.getElementById("participants");
             const newIndex = document.querySelectorAll('.participant-input').length + 1;
@@ -78,35 +101,6 @@
                 </div>
             `;
             pairsDiv.insertAdjacentHTML('beforeend', pairHTML);
-        }
-
-        document.getElementById("addGoodPair").addEventListener("click", () => addPair('good'));
-        document.getElementById("addBadPair").addEventListener("click", () => addPair('bad'));
-
-        document.getElementById("addParticipantButton").addEventListener("click", addParticipant);
-
-        class Person {
-            constructor(name, gender, department, career) {
-                this.name = name;
-                this.gender = gender;
-                this.department = department;
-                this.career = career;
-            }
-        }
-        
-        class Table {
-            constructor(capacity) {
-                this.capacity = capacity;
-                this.seats = [];
-            }
-        
-            addPerson(person) {
-                if (this.seats.length < this.capacity) {
-                    this.seats.push(person);
-                } else {
-                    console.log("Table is full");
-                }
-            }
         }
         
         // この関数は、親和性行列やテーブルへの人の割り当てなど、必要なデータ構造を作成します。
@@ -249,16 +243,26 @@
                 displayResults(bestSolution, bestCost);
             });
 
+            function collectPeopleData() {
+                const people = [];
+                document.querySelectorAll('.participant-input').forEach((participantDiv, index) => {
+                    const name = participantDiv.querySelector(`input[name="name${index + 1}"]`).value;
+                    const gender = participantDiv.querySelector(`select[name="gender${index + 1}"]`).value;
+                    const department = participantDiv.querySelector(`input[name="department${index + 1}"]`).value;
+                    const career = parseInt(participantDiv.querySelector(`input[name="career${index + 1}"]`).value, 10);
+                    people.push(new Person(name, gender, department, career));
+                });
+                return people;
+            }
             function collectTableData() {
                 const numTables = parseInt(document.querySelector('input[name="num_tables"]').value, 10);
                 const tableCapacities = document.querySelector('input[name="table_capacities"]').value.split(',').map(capacity => parseInt(capacity, 10));
                 const tables = tableCapacities.map(capacity => new Table(capacity));
                 return { tables, tableCapacities };
             }
-
             function displayResults(bestSolution, bestCost) {
                 const resultDiv = document.getElementById('result');
-                resultDiv.innerHTML = ''; // 結果表示エリアをクリア
+                resultDiv.innerHTML = ''; // Clear previous results
 
                 bestSolution.forEach((table, index) => {
                     const tableDiv = document.createElement('div');
@@ -273,49 +277,14 @@
 
             document.getElementById('seatingForm').addEventListener('submit', function(event) {
                 event.preventDefault();
-
-                // 人々のデータとテーブルの情報を収集
+                // フォーム送信時の処理
                 const people = collectPeopleData();
                 const { tables } = collectTableData();
-
-                // 仮に、ここで親和性行列や最適化関数が実際に動作すると仮定します。
                 const affinityMatrix = generateAffinityMatrix(people);
                 const { bestSolution, bestCost } = simulatedAnnealing(tables, affinityMatrix, people, 1000, 100.0, 0.99);
-
-                // 結果の表示
                 displayResults(bestSolution, bestCost);
             });
-
-                const formData = new FormData(event.target);
-                const people = [];
-                const numTables = parseInt(formData.get('num_tables'), 10);
-                const tableCapacities = formData.get('table_capacities').split(',').map(capacity => parseInt(capacity, 10));
-        
-                // formDataからPersonインスタンスを生成
-                for(let entry of formData.entries()) {
-                    const [key, value] = entry;
-                    if(key.startsWith('name')) {
-                        const index = key.match(/\d+/)[0]; // name1, name2, ...から数字を抽出
-                        const person = new Person(
-                            value,
-                            formData.get(`gender${index}`),
-                            formData.get(`department${index}`),
-                            parseInt(formData.get(`career${index}`), 10)
-                        );
-                        people.push(person);
-                    }
-                }
-        
-                // Tableインスタンスの生成
-                const tables = tableCapacities.map(capacity => new Table(capacity));
-        
-                // ここで、optimizeSeatingなどの関数を呼び出して、最適化処理を実行
-                const affinityMatrix = generateAffinityMatrix(people);
-                const { bestSolution, bestCost } = simulatedAnnealing(tables, affinityMatrix, people, 1000, 100.0, 0.99);
-                
-                // 結果をHTMLに表示
-                document.getElementById('result').innerHTML = '結果のHTML表現';
-            });
-        </script>
+        });
+    </script>
 </body>
 </html>
