@@ -103,11 +103,6 @@
             pairsDiv.insertAdjacentHTML('beforeend', pairHTML);
         }
         
-        // この関数は、親和性行列やテーブルへの人の割り当てなど、必要なデータ構造を作成します。
-        function setupOptimization(people) {
-            // 人々のリスト、テーブルのリスト、親和性行列などを設定する
-        }
-        
         // 親和性行列の生成
         function generateAffinityMatrix(people) {
             const size = people.length;
@@ -218,30 +213,10 @@
             return newSolution;
         }
 
-        // 実際に最適化を実行する関数
-        function runOptimization() {
-            let people = [/* 人々のデータを準備する */];
-            let tables = [/* テーブルのデータを準備する */];
-            let affinityMatrix = [/* 親和性行列を準備する */];
-        
-            let optimizedTables = simulatedAnnealing(tables, affinityMatrix, people, 100000, 100.0, 0.999);
-            // 最適化されたテーブルとコストを表示または使用する
-        }
-
         document.addEventListener('DOMContentLoaded', function() {
             document.getElementById("addParticipant").addEventListener("click", addParticipant);
             document.getElementById("addGoodPair").addEventListener("click", () => addPair('good'));
             document.getElementById("addBadPair").addEventListener("click", () => addPair('bad'));
-
-            document.getElementById('seatingForm').addEventListener('submit', function(event) {
-                event.preventDefault();
-                // フォーム送信時の処理
-                const people = collectPeopleData();
-                const { tables } = collectTableData();
-                const affinityMatrix = generateAffinityMatrix(people);
-                const { bestSolution, bestCost } = simulatedAnnealing(tables, affinityMatrix, people, 1000, 100.0, 0.99);
-                displayResults(bestSolution, bestCost);
-            });
 
             function collectPeopleData() {
                 const people = [];
