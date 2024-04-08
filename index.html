@@ -160,9 +160,29 @@
             return totalCost;
         }
 
-        function simulatedAnnealing(tables, affinityMatrix, people, iterations, initialTemp, coolingRate) {
-            let currentSolution = tables;
-            let currentCost = calculateCost(tables, affinityMatrix, people);
+        function createInitialSolution(people, tables) {
+            // people配列のコピーをシャッフルする（Fisher-Yatesシャッフル）
+            let shuffledPeople = people.slice();
+            for (let i = shuffledPeople.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffledPeople[i], shuffledPeople[j]] = [shuffledPeople[j], shuffledPeople[i]];
+            }
+
+            // シャッフルされたpeopleをテーブルに割り当てる
+            shuffledPeople.forEach(person => {
+                // 空きがあるテーブルを探す
+                const availableTable = tables.find(table => table.seats.length < table.capacity);
+                if (availableTable) {
+                    availableTable.addPerson(person);
+                } else {
+                    console.error('All tables are full. Cannot add more people.');
+                }
+            });
+        }
+
+        function simulatedAnnealing(initialSolution, affinityMatrix, people, iterations, initialTemp, coolingRate) {
+            let currentSolution = initialSolution;
+            let currentCost = calculateCost(initialSolution, affinityMatrix, people);
             let bestSolution = currentSolution;
             let bestCost = currentCost;
             let temp = initialTemp;
@@ -211,7 +231,6 @@
             return newSolution;
         }
 
-
         document.addEventListener('DOMContentLoaded', function() {
             document.getElementById("addParticipant").addEventListener("click", addParticipant);
             document.getElementById("addGoodPair").addEventListener("click", () => addPair('good'));
@@ -258,7 +277,8 @@
                 const people = collectPeopleData();
                 const { tables } = collectTableData();
                 const affinityMatrix = generateAffinityMatrix(people);
-                const { bestSolution, bestCost } = simulatedAnnealing(tables, affinityMatrix, people, 1000, 100.0, 0.99);
+                const initialSolution = createInitialSolution(people, tables);
+                const { bestSolution, bestCost } = simulatedAnnealing(initialSolution, affinityMatrix, people, 1000, 100.0, 0.99);
                 displayResults(bestSolution, bestCost);
             });
         });
