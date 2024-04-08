@@ -240,8 +240,11 @@
                 resultDiv.innerHTML = ''; // Clear previous results
 
                 bestSolution.forEach((table, index) => {
+                    // table.seats は Person インスタンスの配列です。
+                    // Person インスタンスの name プロパティを取り出して結合します。
+                    const names = table.seats.map(person => person.name).join(', ');
                     const tableDiv = document.createElement('div');
-                    tableDiv.textContent = `Table ${index + 1}: ${table.seats.map(person => person.name).join(', ')}`;
+                    tableDiv.textContent = `Table ${index + 1}: ${names}`;
                     resultDiv.appendChild(tableDiv);
                 });
 
