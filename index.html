@@ -168,7 +168,7 @@
             const participantsDiv = document.getElementById("participants");
             const newIndex = document.querySelectorAll('.participant-input').length + 1;
             const participantHTML = `
-                <div class="participant-input "input-group">
+                <div class="participant-input input-group">
                     名前: <input type="text" name="name${newIndex}" required>
                     部署: <input type="text" name="department${newIndex}" required>
                     年次: <input type="number" name="career${newIndex}" min="0" required>
@@ -181,7 +181,7 @@
             const pairsDiv = document.getElementById(`${pairType}Pairs`);
             const newIndex = document.querySelectorAll(`.${pairType}-pair-input`).length + 1;
             const pairHTML = `
-                <div class="${pairType}-pair-input" "input-group">
+                <div class="${pairType}-pair-input input-group">
                     名前1: <input type="text" name="${pairType}Name1_${newIndex}">
                     名前2: <input type="text" name="${pairType}Name2_${newIndex}">
                     <button type="button" class="delete-button" onclick="this.parentNode.remove();">✕</button>
