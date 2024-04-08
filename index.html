@@ -195,7 +195,15 @@
 
                     // キャリアの差に応じたスコア
                     const careerDiff = Math.abs(person1.career - person2.career);
-                        matrix[i][j] += careerDiff;
+                    if (careerDiff > 30) {
+                        matrix[i][j] += 30;
+                    } else if (careerDiff > 20) {
+                        matrix[i][j] += 20;
+                    } else if (careerDiff > 10) {
+                        matrix[i][j] += 10;
+                    } else if (careerDiff > 5) {
+                        matrix[i][j] += 5;
+                    }
                 }
             }
             // 仲の良いペアと仲の悪いペアに基づいてaffinity_matrixを更新
