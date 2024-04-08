@@ -32,6 +32,14 @@
     <div class="container">
         <h1 class="mb-4">グループ分け最適化サイト</h1>
         <form id="seatingForm">
+            <div class="mb-3">
+                <label for="modeSelect">最適化モード選択:</label>
+                <select id="modeSelect" class="form-control">
+                    <option value="minimize">仲良しで固まりたい！</option>
+                    <option value="maximize">仲良くない人と集まりたい！</option>
+                    <option value="random">ランダムに決めたい！</option>
+                </select>
+            </div>
             <div id="participants" class="mb-3">
                 <!-- 参加者情報入力欄がここに挿入されます -->
             </div>
@@ -206,23 +214,29 @@
             return newTables; // 修正されたテーブルの配列を返す
         }
 
-        function simulatedAnnealing(initialSolution, affinityMatrix, people, iterations, initialTemp, coolingRate) {
-            let currentSolution = initialSolution;
-            let currentCost = calculateCost(initialSolution, affinityMatrix, people);
-            let bestSolution = currentSolution;
+        function simulatedAnnealing(initialSolution, affinityMatrix, people, iterations, initialTemp, coolingRate, mode) {
+            let currentSolution = initialSolution.slice();
+            let currentCost = calculateCost(currentSolution, affinityMatrix, people);
+            let bestSolution = currentSolution.slice();
             let bestCost = currentCost;
             let temp = initialTemp;
 
             for (let i = 0; i < iterations; i++) {
-                let newSolution = generateNewSolution(currentSolution, people);
+                let newSolution = generateNewSolution(currentSolution);
                 let newCost = calculateCost(newSolution, affinityMatrix, people);
 
-                if (acceptanceProbability(currentCost, newCost, temp) > Math.random()) {
-                    currentSolution = newSolution;
+                let costDifference = newCost - currentCost;
+                if (mode === "maximize") {
+                    costDifference = -costDifference; // コスト最大化の場合、コスト差の符号を反転
+                }
+
+                if (costDifference < 0 || Math.exp(-costDifference / temp) > Math.random()) {
+                    currentSolution = newSolution.slice();
                     currentCost = newCost;
 
-                    if (newCost < bestCost) {
-                        bestSolution = newSolution;
+                    // モードに応じて最適な解を更新
+                    if ((mode === "minimize" && newCost < bestCost) || (mode === "maximize" && newCost > bestCost)) {
+                        bestSolution = newSolution.slice();
                         bestCost = newCost;
                     }
                 }
@@ -230,15 +244,12 @@
                 temp *= coolingRate;
             }
 
-            return { bestSolution, bestCost };
-        }
-
-        function acceptanceProbability(oldCost, newCost, temperature) {
-            if (newCost < oldCost) {
-                return 1.0;
-            } else {
-                return Math.exp((oldCost - newCost) / temperature);
+            // ランダムモードの場合、最初に生成したランダム解をそのまま最適解として返す
+            if (mode === "random") {
+                return { bestSolution: initialSolution, bestCost: calculateCost(initialSolution, affinityMatrix, people) };
             }
+
+            return { bestSolution, bestCost };
         }
         
         function generateNewSolution(currentSolution) {
@@ -347,19 +358,26 @@
                 const resultDiv = document.getElementById('result');
                 resultDiv.innerHTML = '計算中...';
                 // フォーム送信時の処理
+                const mode = document.getElementById('modeSelect').value; // モードの選択状態を取得
                 const people = collectPeopleData();
                 const goodPairs = collectGoodPairs();
                 const badPairs = collectBadPairs();
                 const { tables } = collectTableData();
                 const affinityMatrix = generateAffinityMatrix(people, goodPairs, badPairs);
-                // 計算処理を非同期で実行する場合（例: setTimeoutを使用して非同期処理のシミュレート）
-                setTimeout(() => {
-                    const initialSolution = createInitialSolution(people, tables);
-                    const { bestSolution, bestCost } = simulatedAnnealing(initialSolution, affinityMatrix, people, 1000000, 30.0, 0.999999);
-                    
-                    // 結果の表示
-                    displayResults(bestSolution, bestCost);
-                }, 0); // setTimeoutを使用する場合、実際のアプリケーションでは適切な非同期処理に置き換える
+                if (mode === 'random') {
+                    // ランダムモードの処理
+                    const randomSolution = createInitialSolution(people, tables); // ランダムに座席を割り当て
+                    displayResults(randomSolution, 0); // コストは0として表示
+                } else {
+                    // 計算処理を非同期で実行する場合（例: setTimeoutを使用して非同期処理のシミュレート）
+                    setTimeout(() => {
+                        const initialSolution = createInitialSolution(people, tables);
+                        const { bestSolution, bestCost } = simulatedAnnealing(initialSolution, affinityMatrix, people, 1000000, 30.0, 0.999999, mode);
+                        
+                        // 結果の表示
+                        displayResults(bestSolution, bestCost);
+                    }, 0); // setTimeoutを使用する場合、実際のアプリケーションでは適切な非同期処理に置き換える
+                }
             });
         });
     </script>
