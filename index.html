@@ -184,11 +184,11 @@
             const matrix = Array.from({ length: size }, () => Array(size).fill(0));
 
             if (mode == "minimize_department") {
-                department_cost = 200;
-                career_cost = 20;
+                department_cost = 300;
+                career_cost = 10;
             } else if (mode == "minimize_career") {
-                department_cost = 20;
-                career_cost = 200;
+                department_cost = 10;
+                career_cost = 300;
             } else if (mode == "maximize") {
                 department_cost = 60;
                 career_cost = 60;
