@@ -46,6 +46,30 @@
         .delete-button:hover {
             background-color: #bbbbbb;
         }
+        
+        /* スマートフォン用スタイル (画面幅768px以下) */
+        @media (max-width: 768px) {
+            .input-group, .pair-group {
+                display: flex;
+                align-items: center;
+                gap: 10px; /* 要素間の間隔 */
+            }
+        
+            /* 入力欄の幅設定 */
+            .input-group input[type="text"][name^="name"],
+            .pair-group input[type="text"][name*="Name1"],
+            .pair-group input[type="text"][name*="Name2"] {
+                width: 96px; /* 名前は6文字分 */
+            }
+        
+            .input-group input[type="text"][name^="department"] {
+                width: 96px; /* 部署は6文字分 */
+            }
+        
+            .input-group input[type="number"][name^="career"] {
+                width: 48px; /* 年次は3文字分 */
+            }
+        }
     </style>    
 </head>
 <body>
