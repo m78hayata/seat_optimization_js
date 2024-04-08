@@ -49,23 +49,30 @@
         }
     
         /* ボタン関連のスタイル */
-        .btn, .delete-button {
+        .btn{
             border-radius: 20px;
             padding: 0.5rem 1.5rem;
             cursor: pointer;
         }
     
+        /* 削除ボタンのスタイル設定 */
         .delete-button {
             padding: 0;
             width: 30px;
             height: 30px;
+            border-radius: 15px;
+            border: none;
             background-color: #cccccc;
             color: white;
             font-weight: bold;
+            cursor: pointer;
         }
-    
-        .delete-button:hover, .btn:hover {
+
+        /* ボタンのホバー効果 */
+        .delete-button:hover {
             background-color: #bbbbbb;
+        }
+        .btn:hover {
             opacity: 0.9;
         }
     
@@ -140,13 +147,13 @@
             <button type="button" class="btn btn-primary mb-3" id="addParticipant">参加者追加</button>
             <span id="participantCount">合計: 0人</span>
             <div id="goodPairs" class="mb-3">
-                <h5>仲良し度の高いペア</h5>
+                <h4>仲良し度の高いペア</h4>
                 <!-- 仲の良いペアの入力フィールドがここに挿入されます -->
             </div>
             <button type="button" class="btn btn-info mb-3" id="addGoodPair">ペア追加</button>
             
             <div id="badPairs" class="mb-3">
-                <h5>仲良し度の低いペア</h5>
+                <h4>仲良し度の低いペア</h4>
                 <!-- 仲の悪いペアの入力フィールドがここに挿入されます -->
             </div>
             <button type="button" class="btn btn-info mb-3" id="addBadPair">ペア追加</button>
@@ -166,7 +173,6 @@
         </form>
 
         <div id="result" class="mt-3">
-            <h5>結果</h5>
             <!-- 計算結果がここに表示されます -->
         </div>
     </div>
