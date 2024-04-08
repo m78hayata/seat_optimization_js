@@ -11,7 +11,10 @@
         .container {
             margin-top: 40px; /* タイトルの上の余白を増やす */
         }
-        
+        .narrow-input {
+            max-width: 200px; /* 最大幅を200pxに設定 */
+        }
+
         .input-group, .pair-group {
             display: flex;
             align-items: center;
@@ -54,6 +57,9 @@
 
         @media (max-width: 768px) {
             /* スマートフォン表示時のスタイリング */
+            .narrow-input {
+                max-width: 50%; /* スマートフォン表示では幅を100%に */
+            }
             .input-group, .pair-group {
                 flex-wrap: nowrap; /* 折り返さない */
                 gap: 5px; /* 要素間の間隔を狭める */
@@ -99,11 +105,11 @@
 
             <div class="mb-3">
                 <label>グループ数(半角整数)</label>
-                <input type="number" name="num_tables" class="form-control" required>
+                <input type="number" name="num_tables" class="form-control narrow-input" required>
             </div>
             <div class="mb-3">
                 <label>各グループの人数(例:3,4,5)</label>
-                <input type="text" name="table_capacities" class="form-control" required>
+                <input type="text" name="table_capacities" class="form-control narrow-input" required>
             </div>
             <div class="d-grid gap-2 d-md-block">
                 <input type="submit" class="btn btn-success mb-3" value="計算開始">
