@@ -47,6 +47,8 @@
             font-weight: bold; /* 文字を太く */
             cursor: pointer; /* マウスカーソルをポインターに */
             margin-left: 10px;
+            text-align: center;
+            line-height: 30px; /* ボタンの高さに合わせて行の高さを設定 */
         }
     
         /* ボタンのホバー効果 */
@@ -56,6 +58,16 @@
     
         /* レスポンシブ対応：768px以下でのスタイル調整 */
         @media (max-width: 768px) {
+            /* スマートフォン表示でのスタイル調整 */
+            .input-group input[type="text"][name^="name"],
+            .input-group input[type="number"][name^="career"],
+            .input-group input[type="text"][name^="department"] {
+                width: auto; /* 幅を内容に応じて調整 */
+            }
+
+            .input-group .delete-button {
+                margin: 0 auto; /* 中央揃え */
+            }
             .input-group {
                 flex-direction: column;
                 align-items: stretch;
