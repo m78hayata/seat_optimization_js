@@ -245,7 +245,6 @@
         }
 
         function createInitialSolution(people, tables) {
-            console.log(people);
             // テーブルの新しいインスタンスを作成して、席をクリア
             let newTables = tables.map(table => new Table(table.capacity));
 
@@ -309,9 +308,6 @@
                 }
 
                 temp *= coolingRate;
-            }
-            if (mode == "maximize") {
-                bestCost = -bestCost; // コスト最大化の場合、コストを正の値に変換
             }
             return { bestSolution, bestCost };
         }
