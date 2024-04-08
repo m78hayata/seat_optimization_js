@@ -95,8 +95,8 @@
             const newIndex = document.querySelectorAll(`.${pairType}-pair-input`).length + 1;
             const pairHTML = `
                 <div class="${pairType}-pair-input">
-                    名前1: <input type="text" name="${pairType}Name1_${newIndex}" required>
-                    名前2: <input type="text" name="${pairType}Name2_${newIndex}" required>
+                    名前1: <input type="text" name="${pairType}Name1_${newIndex}">
+                    名前2: <input type="text" name="${pairType}Name2_${newIndex}">
                 </div>
             `;
             pairsDiv.insertAdjacentHTML('beforeend', pairHTML);
