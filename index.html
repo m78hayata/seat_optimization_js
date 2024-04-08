@@ -59,11 +59,11 @@
             }
         }
         class Table {
-            constructor(capacity) {
+            constructor(capacity, seats = []) {
                 this.capacity = capacity;
-                this.seats = [];
+                this.seats = seats;
             }
-        
+
             addPerson(person) {
                 if (this.seats.length < this.capacity) {
                     this.seats.push(person);
@@ -218,12 +218,10 @@
                 return Math.exp((oldCost - newCost) / temperature);
             }
         }
-
+        
         function generateNewSolution(currentSolution) {
-            // 現在の解の深いコピーを作成
-            let newSolution = currentSolution.map(table => {
-                return new Table(table.capacity, table.seats.slice());
-            });
+            // 新しい解のスケルトンを作成
+            let newSolution = currentSolution.map(table => new Table(table.capacity, table.seats.slice()));
 
             // 全席を平坦化した配列を作成
             let allSeats = [];
@@ -245,7 +243,7 @@
                 // 選んだ2つの席の人物を交換
                 let seat1 = allSeats[index1];
                 let seat2 = allSeats[index2];
-                [newSolution[seat1.tableIndex].seats[seat1.seatIndex], newSolution[seat2.tableIndex].seats[seat2.seatIndex]] = [newSolution[seat2.tableIndex].seats[seat2.seatIndex], newSolution[seat1.tableIndex].seats[seat1.seatIndex]];
+                [newSolution[seat1.tableIndex].seats[seat1.seatIndex], newSolution[seat2.tableIndex].seats[seat2.seatIndex]] = [seat2.person, seat1.person];
             }
 
             return newSolution;
