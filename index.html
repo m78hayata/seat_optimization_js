@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>座席決定アプリ</title>
+    <title>グループ分け最適化サイト</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
@@ -13,7 +13,7 @@
 </head>
 <body>
     <div class="container">
-        <h1 class="mb-4">飲み会座席決定アプリ</h1>
+        <h1 class="mb-4">グループ分け最適化サイト</h1>
         <form id="seatingForm">
             <div id="participants" class="mb-3">
                 <!-- 参加者情報入力欄がここに挿入されます -->
@@ -21,23 +21,23 @@
             <button type="button" class="btn btn-primary mb-3" id="addParticipant">参加者追加</button>
 
             <div id="goodPairs" class="mb-3">
-                <h3>仲の良いペア</h3>
+                <h3>仲良し度の高いペア</h3>
                 <!-- 仲の良いペアの入力フィールドがここに挿入されます -->
             </div>
-            <button type="button" class="btn btn-info mb-3" id="addGoodPair">仲の良いペア追加</button>
+            <button type="button" class="btn btn-info mb-3" id="addGoodPair">高仲良し度ペア追加</button>
             
             <div id="badPairs" class="mb-3">
-                <h3>仲の悪いペア</h3>
+                <h3>仲良し度の低いペア</h3>
                 <!-- 仲の悪いペアの入力フィールドがここに挿入されます -->
             </div>
-            <button type="button" class="btn btn-info mb-3" id="addBadPair">仲の悪いペア追加</button>
+            <button type="button" class="btn btn-info mb-3" id="addBadPair">低仲良し度ペア追加</button>
 
             <div class="mb-3">
-                <label>テーブル数:</label>
+                <label>テーブル数(半角整数)</label>
                 <input type="number" name="num_tables" class="form-control" required>
             </div>
             <div class="mb-3">
-                <label>各テーブルの席数:</label>
+                <label>各テーブルの席数(例:3,4,5)</label>
                 <input type="text" name="table_capacities" class="form-control" required>
             </div>
             <input type="submit" class="btn btn-success" value="座席決定">
@@ -80,7 +80,7 @@
                     名前: <input type="text" name="name${newIndex}" required>
                     部署: <input type="text" name="department${newIndex}" required>
                     年次: <input type="number" name="career${newIndex}" min="0" required>
-                    <button type="button" class="btn btn-danger remove-participant">削除</button>
+                    <button class="delete-button" remove-participant>✕</button>
                 </div>
             `;
             participantsDiv.insertAdjacentHTML('beforeend', participantHTML);
@@ -98,7 +98,7 @@
                 <div class="${pairType}-pair-input">
                     名前1: <input type="text" name="${pairType}Name1_${newIndex}">
                     名前2: <input type="text" name="${pairType}Name2_${newIndex}">
-                    <button type="button" class="btn btn-danger remove-pair">削除</button>
+                    <button class="delete-button" remove-pair>✕</button>
                 </div>
             `;
             pairsDiv.insertAdjacentHTML('beforeend', pairHTML);
@@ -316,5 +316,24 @@
             });
         });
     </script>
+    <style>
+        .delete-button {
+            display: inline-block;
+            margin-left: 20px;
+            width: 30px;
+            height: 30px;
+            border-radius: 15px; /* ボタンを丸くする */
+            border: none; /* 枠線を消す */
+            background-color: #cccccc; /* 薄いグレー色 */
+            color: white; /* 文字色 */
+            font-weight: bold; /* 文字を太く */
+            cursor: pointer; /* マウスカーソルをポインターに */
+        }
+
+        /* ボタンのホバー効果 */
+        .delete-button:hover {
+            background-color: #bbbbbb;
+        }
+    </style>
 </body>
 </html>
