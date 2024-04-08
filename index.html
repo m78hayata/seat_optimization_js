@@ -7,70 +7,66 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
-        /* 全体の設定 */
+        /* 入力グループ全体の設定 */
         .input-group, .pair-group {
             display: flex;
             align-items: center;
-            gap: 20px; /* 要素間の間隔 */
+            gap: 10px; /* 要素間の間隔 */
+            margin-bottom: 20px; /* 参加者ごとの余白 */
         }
-    
+
         /* 入力欄の幅設定 */
         .input-group input[type="text"][name^="name"],
         .pair-group input[type="text"][name*="Name1"],
         .pair-group input[type="text"][name*="Name2"] {
-            width: 128px; /* 名前は8文字分 */
+            width: 128px; /* 名前欄は8文字分の幅 */
         }
-    
+
         .input-group input[type="text"][name^="department"] {
-            width: 128px; /* 部署は8文字分 */
+            width: 128px; /* 部署欄は8文字分の幅 */
         }
-    
+
         .input-group input[type="number"][name^="career"] {
-            width: 48px; /* 年次は3文字分 */
+            width: 48px; /* 年次欄は3文字分の幅 */
         }
-    
+
         /* 削除ボタンのスタイル設定 */
         .delete-button {
             padding: 0;
             width: 30px;
             height: 30px;
-            border-radius: 15px; /* ボタンを丸くする */
-            border: none; /* 枠線を消す */
-            background-color: #cccccc; /* 薄いグレー色 */
-            color: white; /* 文字色 */
-            font-weight: bold; /* 文字を太く */
-            cursor: pointer; /* マウスカーソルをポインターに */
+            border-radius: 15px;
+            border: none;
+            background-color: #cccccc;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            margin-left: auto; /* 削除ボタンを右端に配置 */
         }
-    
+
         /* ボタンのホバー効果 */
         .delete-button:hover {
             background-color: #bbbbbb;
         }
-        
-        /* スマートフォン用スタイル (画面幅768px以下) */
+
         @media (max-width: 768px) {
+            /* スマートフォン表示時のスタイル調整 */
             .input-group, .pair-group {
-                display: flex;
-                align-items: center;
-                gap: 10px; /* 要素間の間隔 */
+                flex-direction: column;
+                gap: 5px; /* 折り返し時の要素間の間隔 */
             }
-        
-            /* 入力欄の幅設定 */
-            .input-group input[type="text"][name^="name"],
-            .pair-group input[type="text"][name*="Name1"],
-            .pair-group input[type="text"][name*="Name2"] {
-                width: 96px; /* 名前は6文字分 */
+
+            .input-group input,
+            .pair-group input,
+            .delete-button {
+                width: auto; /* 折り返し時の入力欄の幅を自動に戻す */
             }
-        
-            .input-group input[type="text"][name^="department"] {
-                width: 96px; /* 部署は6文字分 */
-            }
-        
-            .input-group input[type="number"][name^="career"] {
-                width: 48px; /* 年次は3文字分 */
+
+            .input-group, .pair-group {
+                margin-bottom: 15px; /* 参加者ごとの余白をスマートフォン用に調整 */
             }
         }
-    </style>    
+    </style>
 </head>
 <body>
     <div class="container">
