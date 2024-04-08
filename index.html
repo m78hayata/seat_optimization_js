@@ -22,6 +22,18 @@
                 margin: 10px auto;
                 display: block;
             }
+            .form-group, .btn {
+                width: 100%;
+                margin-top: 10px;
+            }
+
+            .form-label {
+                margin-top: 10px;
+            }
+
+            .delete-button {
+                margin-top: 10px;
+            }
         }
 
         .participant-input, .pair-input { margin-bottom: 10px; }
@@ -83,8 +95,10 @@
                 <label>各グループの人数(例:3,4,5)</label>
                 <input type="text" name="table_capacities" class="form-control" required>
             </div>
-            <input type="submit" class="btn btn-success" value="計算開始">
-            <button type="button" class="btn btn-danger" id="clearResults" style="display: none;">クリア</button>            
+            <div class="d-grid gap-2 d-md-block">
+                <input type="submit" class="btn btn-success mb-3" value="計算開始">
+                <button type="button" class="btn btn-danger mb-3" id="clearResults" style="display: none;">クリア</button>
+            </div>                      
         </form>
 
         <div id="result" class="mt-3">
