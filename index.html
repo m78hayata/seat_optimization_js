@@ -429,20 +429,14 @@
                 const badPairs = collectBadPairs();
                 const { tables } = collectTableData();
                 const affinityMatrix = generateAffinityMatrix(people, goodPairs, badPairs);
-                if (mode === 'random') {
-                    // ランダムモードの処理
-                    const randomSolution = createInitialSolution(people, tables); // ランダムに座席を割り当て
-                    displayResults(randomSolution, 0); // コストは0として表示
-                } else {
-                    // 計算処理を非同期で実行する場合（例: setTimeoutを使用して非同期処理のシミュレート）
-                    setTimeout(() => {
-                        const initialSolution = createInitialSolution(people, tables);
-                        const { bestSolution, bestCost } = simulatedAnnealing(initialSolution, affinityMatrix, people, 1000000, 30.0, 0.999999, mode);
-                        
-                        // 結果の表示
-                        displayResults(bestSolution, bestCost);
-                    }, 0); // setTimeoutを使用する場合、実際のアプリケーションでは適切な非同期処理に置き換える
-                }
+                // 計算処理を非同期で実行する場合（例: setTimeoutを使用して非同期処理のシミュレート）
+                setTimeout(() => {
+                    const initialSolution = createInitialSolution(people, tables);
+                    const { bestSolution, bestCost } = simulatedAnnealing(initialSolution, affinityMatrix, people, 10000000, 50.0, 0.999999, mode);
+                    
+                    // 結果の表示
+                    displayResults(bestSolution, bestCost);
+                }, 0); // setTimeoutを使用する場合、実際のアプリケーションでは適切な非同期処理に置き換える
             });
         });
     </script>
