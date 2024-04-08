@@ -31,6 +31,7 @@
 <body>
     <div class="container">
         <h1 class="mb-4">グループ分け最適化サイト</h1>
+        <h3 class="mb-4">メタヒューリスティクスを用いてシーンに合わせた最適なグループ分けを実現します</h3>
         <form id="seatingForm">
             <div class="mb-3">
                 <label for="modeSelect">最適化モード選択:</label>
@@ -339,12 +340,12 @@
                 bestSolution.forEach((table, index) => {
                     const names = table.seats.map(person => person.name).join(', ');
                     const tableDiv = document.createElement('div');
-                    tableDiv.textContent = `Table ${index + 1}: ${names}`;
+                    tableDiv.textContent = `グループ ${index + 1}: ${names}`;
                     resultDiv.appendChild(tableDiv);
                 });
 
                 const costDiv = document.createElement('div');
-                costDiv.textContent = `Total Cost: ${bestCost}`;
+                costDiv.textContent = `仲良し度: ${-1*bestCost}`;
                 resultDiv.appendChild(costDiv);
 
                 // 結果が表示されたので、クリアボタンを表示
