@@ -157,7 +157,7 @@
                 名前: <input type="text" name="name${newIndex}" required>
                 部署: <input type="text" name="department${newIndex}" required>
                 年次: <input type="number" name="career${newIndex}" min="0" required>
-                <button type="button" class="delete-button" onclick="this.parentNode.remove();">✕</button>
+                <button type="button" class="delete-button" onclick="this.parentNode.remove(); updateParticipantCount();">✕</button>
             </div>
             `;
             participantsDiv.insertAdjacentHTML('beforeend', participantHTML);
@@ -171,7 +171,7 @@
                 <div class="${pairType}-pair-input pair-group">
                     名前1: <input type="text" name="${pairType}Name1_${newIndex}">
                     名前2: <input type="text" name="${pairType}Name2_${newIndex}">
-                    <button type="button" class="delete-button" onclick="this.parentNode.remove(); updateParticipantCount();">✕</button>
+                    <button type="button" class="delete-button" onclick="this.parentNode.remove();">✕</button>
                 </div>
             `;
             pairsDiv.insertAdjacentHTML('beforeend', pairHTML);
