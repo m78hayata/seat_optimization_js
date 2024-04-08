@@ -116,7 +116,7 @@
         }
         
         // 親和性行列の生成
-        function generateAffinityMatrix(people) {
+        function generateAffinityMatrix(people, goodPairs, badPairs) {
             const size = people.length;
             const matrix = Array.from({ length: size }, () => Array(size).fill(0));
 
@@ -348,8 +348,10 @@
                 resultDiv.innerHTML = '計算中...';
                 // フォーム送信時の処理
                 const people = collectPeopleData();
+                const goodPairs = collectGoodPairs();
+                const badPairs = collectBadPairs();
                 const { tables } = collectTableData();
-                const affinityMatrix = generateAffinityMatrix(people);
+                const affinityMatrix = generateAffinityMatrix(people, goodPairs, badPairs);
                 // 計算処理を非同期で実行する場合（例: setTimeoutを使用して非同期処理のシミュレート）
                 setTimeout(() => {
                     const initialSolution = createInitialSolution(people, tables);
