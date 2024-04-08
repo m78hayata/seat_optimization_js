@@ -7,38 +7,31 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
-        /* 基本スタイル */
-        .input-group {
+        /* 全体の設定 */
+        .input-group, .pair-group {
             display: flex;
-            flex-wrap: wrap; /* 必要に応じて折り返し */
+            align-items: center;
             gap: 10px; /* 要素間の間隔 */
         }
-
-        .input-group input[type="text"],
-        .input-group input[type="number"] {
-            flex-grow: 1; /* 入力フィールドを可変幅に */
-        }
-
-        /* 名前フィールドの幅設定 */
-        .input-group input[type="text"][name^="name"] {
-            flex: 2 0 150px; /* 名前フィールドを他より広く */
-        }
-
-        /* 部署と年次フィールドの幅設定 */
-        .input-group input[type="text"][name^="department"],
-        .input-group input[type="number"][name^="career"] {
-            flex: 1 0 120px; /* 部署と年次フィールドの最小幅を指定 */
-        }
-
-        /* 削除ボタンのスタイル */
-        .delete-button {
-            width: 30px;
-            height: 30px;
-            margin-left: auto; /* 削除ボタンを右寄せ */
+    
+        /* 入力欄の幅設定 */
+        .input-group input[type="text"][name^="name"],
+        .pair-group input[type="text"][name$="Name1"],
+        .pair-group input[type="text"][name$="Name2"] {
+            width: 128px; /* 名前は8文字分 */
         }
     
+        .input-group input[type="text"][name^="department"] {
+            width: 128px; /* 部署は8文字分 */
+        }
+    
+        .input-group input[type="number"][name^="career"] {
+            width: 32px; /* 年次は2文字分 */
+        }
+    
+        /* 削除ボタンのスタイル設定 */
         .delete-button {
-            flex-shrink: 0;
+            padding: 0;
             width: 30px;
             height: 30px;
             border-radius: 15px; /* ボタンを丸くする */
@@ -47,57 +40,13 @@
             color: white; /* 文字色 */
             font-weight: bold; /* 文字を太く */
             cursor: pointer; /* マウスカーソルをポインターに */
-            margin-left: 10px;
-            text-align: center;
-            line-height: 30px; /* ボタンの高さに合わせて行の高さを設定 */
         }
     
         /* ボタンのホバー効果 */
         .delete-button:hover {
             background-color: #bbbbbb;
         }
-    
-        /* レスポンシブ対応：768px以下でのスタイル調整 */
-        @media (max-width: 768px) {
-            /* スマートフォン表示でのスタイル調整 */
-            .input-group {
-                flex-direction: column; /* 縦並びに変更 */
-            }
-
-            /* 部署と年次のみを横に並べる */
-            .input-group .department-career {
-                display: flex;
-                width: 100%; /* 親要素いっぱいに広げる */
-                gap: 10px;
-            }
-
-            .input-group input[type="text"][name^="department"],
-            .input-group input[type="number"][name^="career"] {
-                flex: 1; /* 幅を等分に */
-            }
-
-            .input-group input,
-            .delete-button {
-                width: auto; /* 元の幅に戻す */
-                margin: 0; /* マージンを解除 */
-            }
-    
-            .input-group input,
-            .input-group .delete-button,
-            .form-control, .btn {
-                width: 100%; /* 入力フィールドとボタンの幅を100%に */
-                margin-top: 10px; /* 上の要素との間隔 */
-            }
-    
-            .delete-button {
-                margin: 10px auto; /* 中央揃えで上下に間隔 */
-            }
-    
-            .form-label {
-                margin-top: 10px; /* ラベルの上の間隔 */
-            }
-        }
-    </style>
+    </style>    
 </head>
 <body>
     <div class="container">
@@ -177,10 +126,8 @@
             const participantHTML = `
             <div class="input-group">
                 名前: <input type="text" name="name1" required>
-                <div class="department-career">
-                    部署: <input type="text" name="department1" required>
-                    年次: <input type="number" name="career1" min="0" required>
-                </div>
+                部署: <input type="text" name="department1" required>
+                年次: <input type="number" name="career1" min="0" required>
                 <button type="button" class="delete-button" onclick="this.parentNode.remove();">✕</button>
             </div>
             `;
@@ -190,7 +137,7 @@
             const pairsDiv = document.getElementById(`${pairType}Pairs`);
             const newIndex = document.querySelectorAll(`.${pairType}-pair-input`).length + 1;
             const pairHTML = `
-                <div class="${pairType}-pair-input input-group">
+                <div class="${pairType}-pair-input pair-group">
                     名前1: <input type="text" name="${pairType}Name1_${newIndex}">
                     名前2: <input type="text" name="${pairType}Name2_${newIndex}">
                     <button type="button" class="delete-button" onclick="this.parentNode.remove();">✕</button>
