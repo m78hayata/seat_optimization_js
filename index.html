@@ -90,7 +90,6 @@
                 <!-- 参加者情報入力欄がここに挿入されます -->
             </div>
             <button type="button" class="btn btn-primary mb-3" id="addParticipant">参加者追加</button>
-            <span id="participantCount">合計: 0人</span>
             <div id="goodPairs" class="mb-3">
                 <h4>仲良し度の高いペア</h4>
                 <!-- 仲の良いペアの入力フィールドがここに挿入されます -->
@@ -145,59 +144,18 @@
             }
         }
 
-        function updateParticipantCount() {
-            const participantCount = document.querySelectorAll('.participant-input').length;
-            document.getElementById("participantCount").textContent = `合計: ${participantCount}人`;
-        }
-
         function addParticipant() {
             const participantsDiv = document.getElementById("participants");
             const newIndex = document.querySelectorAll('.participant-input').length + 1;
-            
-            // 新しい入力グループのコンテナを作成
-            const newInputGroup = document.createElement('div');
-            newInputGroup.classList.add('input-group');
-
-            // 名前入力欄を作成
-            const nameInput = document.createElement('input');
-            nameInput.type = 'text';
-            nameInput.name = `name${newIndex}`;
-            nameInput.required = true;
-
-            // 部署入力欄を作成
-            const departmentInput = document.createElement('input');
-            departmentInput.type = 'text';
-            departmentInput.name = `department${newIndex}`;
-            departmentInput.required = true;
-
-            // 年次入力欄を作成
-            const careerInput = document.createElement('input');
-            careerInput.type = 'number';
-            careerInput.name = `career${newIndex}`;
-            careerInput.min = '0';
-            careerInput.required = true;
-
-            // 削除ボタンを作成
-            const deleteButton = document.createElement('button');
-            deleteButton.type = 'button';
-            deleteButton.classList.add('delete-button');
-            deleteButton.textContent = '✕';
-            deleteButton.addEventListener('click', function() {
-                this.parentNode.remove();
-                updateParticipantCount();
-            });
-
-            // 入力グループに要素を追加
-            newInputGroup.appendChild(nameInput);
-            newInputGroup.appendChild(departmentInput);
-            newInputGroup.appendChild(careerInput);
-            newInputGroup.appendChild(deleteButton);
-
-            // DOMに新しい入力グループを追加
-            participantsDiv.appendChild(newInputGroup);
-
-            // 参加者数を更新
-            updateParticipantCount();
+            const participantHTML = `
+            <div class="input-group">
+                名前: <input type="text" name="name1" required>
+                部署: <input type="text" name="department1" required>
+                年次: <input type="number" name="career1" min="0" required>
+                <button type="button" class="delete-button" onclick="this.parentNode.remove();">✕</button>
+            </div>
+            `;
+            participantsDiv.insertAdjacentHTML('beforeend', participantHTML);
         }
 
         function addPair(pairType) { // pairTypeは 'good' または 'bad' の文字列
@@ -373,7 +331,6 @@
         }
 
         document.addEventListener('DOMContentLoaded', function() {
-            updateParticipantCount();
             document.getElementById("addParticipant").addEventListener("click", addParticipant);
             document.getElementById("addGoodPair").addEventListener("click", () => addPair('good'));
             document.getElementById("addBadPair").addEventListener("click", () => addPair('bad'));
