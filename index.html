@@ -60,11 +60,9 @@
         @media (max-width: 768px) {
             /* スマートフォン表示でのスタイル調整 */
             .input-group input[type="text"][name^="name"],
-            .input-group input[type="number"][name^="career"] {
-                width: 10%;
-            }
+            .input-group input[type="number"][name^="career"],
             .input-group input[type="text"][name^="department"] {
-                width: 20%; /* 幅を内容に応じて調整 */
+                width: auto; /* 幅を内容に応じて調整 */
             }
 
             .input-group .delete-button {
