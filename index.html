@@ -106,15 +106,19 @@
     
         /* レスポンシブ対応 */
         @media (max-width: 768px) {
-            .narrow-input, .input-group, .pair-group {
-                max-width: 50%;
-                flex-wrap: nowrap;
-                gap: 5px;
+            /* スマートフォン表示時のスタイリング */
+            .narrow-input {
+                max-width: 50%; /* スマートフォン表示では幅を100%に */
+            }
+            .input-group, .pair-group {
+                flex-wrap: nowrap; /* 折り返さない */
+                gap: 5px; /* 要素間の間隔を狭める */
             }
             
-            .input-group input, .pair-group input {
-                flex: 1;
-                min-width: 50px;
+            .input-group input,
+            .pair-group input {
+                flex: 1; /* スマートフォンでは入力欄の幅を自動調整 */
+                min-width: 50px; /* 入力欄の最小幅を指定 */
             }
         }
     </style>    
