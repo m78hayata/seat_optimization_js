@@ -215,7 +215,10 @@
                         matrix[i][j] += career_cost*0.6;
                     } else if (careerDiff > 5) {
                         matrix[i][j] += career_cost*0.4;
-                    }
+                    } else if (careerDiff > 3) {
+                        matrix[i][j] += career_cost*0.2;
+                    } else if (careerDiff > 1) {
+                        matrix[i][j] += career_cost*0.1;
                 }
             }
             // 仲の良いペアと仲の悪いペアに基づいてaffinity_matrixを更新
