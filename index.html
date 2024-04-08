@@ -416,7 +416,7 @@
                 setTimeout(() => {
                     const initialSolution = createInitialSolution(people, tables);
                     console.log(initialSolution);
-                    const { bestSolution, bestCost } = simulatedAnnealing(initialSolution, affinityMatrix, people, 1000000, 30.0, 0.999999, mode);
+                    const { bestSolution, bestCost } = simulatedAnnealing(initialSolution, affinityMatrix, people, 10000000, 50.0, 0.999999, mode);
                     console.log(bestSolution);
                     // 結果の表示
                     displayResults(bestSolution, bestCost);
