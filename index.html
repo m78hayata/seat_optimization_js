@@ -7,106 +7,37 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
-        @media (max-width: 768px) {
-            .input-group {
-                flex-direction: row; /* スマートフォン表示でも横並びにする */
-                flex-wrap: nowrap; /* 折り返さない */
-            }
-
-            .input-group input,
-            .input-group .delete-button {
-                width: auto; /* 入力欄の幅を自動調整 */
-            }
-            .form-control, .btn {
-                width: 100%;
-                margin-top: 10px;
-            }
-
-            .mode-selection, .participant-input, .pair-input {
-                flex-direction: column;
-                align-items: stretch;
-            }
-
-            .delete-button {
-                margin: 10px auto;
-                display: block;
-            }
-            .form-group, .btn {
-                width: 100%;
-                margin-top: 10px;
-            }
-
-            .form-label {
-                margin-top: 10px;
-            }
-
-            .delete-button {
-                margin-top: 10px;
-            }
-            .input-group {
-                flex-direction: column;
-                align-items: stretch;
-            }
-
-            .input-group input[type="text"],
-            .input-group input[type="number"],
-            .input-group .delete-button {
-                margin-right: 0;
-                margin-bottom: 10px;
-            }
+        /* 基本スタイル */
+        .container {
+            margin-top: 20px;
         }
-        /* スタイルの基本設定 */
+    
         .input-group {
             display: flex;
-            flex-wrap: wrap; /* コンテンツが多い場合に折り返す */
             align-items: center;
             gap: 10px; /* 入力フィールド間のスペース */
+            flex-wrap: wrap; /* コンテンツが多い場合に折り返す */
+            margin-bottom: 10px;
         }
-
+    
         .input-group input[type="text"],
         .input-group input[type="number"] {
-            flex: 1; /* 入力フィールドを均等に拡大縮小 */
+            flex-grow: 1; /* 入力フィールドを柔軟に伸ばす */
         }
-
+    
         /* 名前欄は少し幅を広く取る */
         .input-group input[type="text"][name^="name"] {
             flex: 2;
         }
-
+    
         /* 部署と年次は幅を狭める */
         .input-group input[type="text"][name^="department"],
         .input-group input[type="number"][name^="career"] {
             flex: 1;
         }
-
-        /* 削除ボタンはサイズを固定 */
+    
         .delete-button {
             flex-shrink: 0;
-            width: 30px;
-            height: 30px;
-        }
-
-        .input-group {
-            display: flex;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-
-        .input-group input[type="text"],
-        .input-group input[type="number"] {
-            margin-right: 10px;
-            flex-grow: 1; /* 入力フィールドを柔軟に伸ばす */
-        }
-
-        .input-group .delete-button {
-            flex-shrink: 0; /* 削除ボタンのサイズを固定 */
-        }
-
-        .participant-input, .pair-input { margin-bottom: 10px; }
-        .container { margin-top: 20px; }
-        .delete-button {
-            display: inline-block;
-            margin-left: 20px;
             width: 30px;
             height: 30px;
             border-radius: 15px; /* ボタンを丸くする */
@@ -115,11 +46,35 @@
             color: white; /* 文字色 */
             font-weight: bold; /* 文字を太く */
             cursor: pointer; /* マウスカーソルをポインターに */
+            margin-left: 10px;
         }
-
+    
         /* ボタンのホバー効果 */
         .delete-button:hover {
             background-color: #bbbbbb;
+        }
+    
+        /* レスポンシブ対応：768px以下でのスタイル調整 */
+        @media (max-width: 768px) {
+            .input-group {
+                flex-direction: column;
+                align-items: stretch;
+            }
+    
+            .input-group input,
+            .input-group .delete-button,
+            .form-control, .btn {
+                width: 100%; /* 入力フィールドとボタンの幅を100%に */
+                margin-top: 10px; /* 上の要素との間隔 */
+            }
+    
+            .delete-button {
+                margin: 10px auto; /* 中央揃えで上下に間隔 */
+            }
+    
+            .form-label {
+                margin-top: 10px; /* ラベルの上の間隔 */
+            }
         }
     </style>
 </head>
