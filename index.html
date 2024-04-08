@@ -241,12 +241,10 @@
             document.getElementById("addParticipant").addEventListener("click", addParticipant);
             document.getElementById("addGoodPair").addEventListener("click", () => addPair('good'));
             document.getElementById("addBadPair").addEventListener("click", () => addPair('bad'));
-            document.getElementById('clearResults').addEventListener('click', function() {
-                // 結果をクリア
-                document.getElementById('result').innerHTML = '';
-
-                // クリアボタンを非表示にする
-                this.style.display = 'none';
+            document.getElementById('clearResults').addEventListener('click', function(event) {
+                event.preventDefault(); // ページ遷移を防止
+                document.getElementById('result').innerHTML = ''; // 結果欄のみクリア
+                this.style.display = 'none'; // クリアボタンを非表示にする
             });
 
             function collectPeopleData() {
