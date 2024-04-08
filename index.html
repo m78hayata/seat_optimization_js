@@ -235,17 +235,19 @@
         }
 
         document.addEventListener('DOMContentLoaded', function() {
-            function collectPeopleData() {
-                const people = [];
-                document.querySelectorAll('.participant-input').forEach((participantDiv, index) => {
-                    const name = participantDiv.querySelector(`input[name="name${index+1}"]`).value;
-                    const gender = participantDiv.querySelector(`select[name="gender${index+1}"]`).value;
-                    const department = participantDiv.querySelector(`input[name="department${index+1}"]`).value;
-                    const career = parseInt(participantDiv.querySelector(`input[name="career${index+1}"]`).value, 10);
-                    people.push(new Person(name, gender, department, career));
-                });
-                return people;
-            }
+            document.getElementById("addParticipant").addEventListener("click", addParticipant);
+            document.getElementById("addGoodPair").addEventListener("click", () => addPair('good'));
+            document.getElementById("addBadPair").addEventListener("click", () => addPair('bad'));
+
+            document.getElementById('seatingForm').addEventListener('submit', function(event) {
+                event.preventDefault();
+                // フォーム送信時の処理
+                const people = collectPeopleData();
+                const { tables } = collectTableData();
+                const affinityMatrix = generateAffinityMatrix(people);
+                const { bestSolution, bestCost } = simulatedAnnealing(tables, affinityMatrix, people, 1000, 100.0, 0.99);
+                displayResults(bestSolution, bestCost);
+            });
 
             function collectTableData() {
                 const numTables = parseInt(document.querySelector('input[name="num_tables"]').value, 10);
