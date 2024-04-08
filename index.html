@@ -101,12 +101,6 @@
                 </div>
             `;
             participantsDiv.insertAdjacentHTML('beforeend', participantHTML);
-            // // 削除ボタンのイベントリスナーを追加
-            // participantsDiv.querySelectorAll('.remove-participant').forEach(button => {
-            //     button.addEventListener('click', function() {
-            //         this.parentNode.remove(); // 親要素を削除
-            //     });
-            // });
         }
         function addPair(pairType) { // pairTypeは 'good' または 'bad' の文字列
             const pairsDiv = document.getElementById(`${pairType}Pairs`);
@@ -119,12 +113,6 @@
                 </div>
             `;
             pairsDiv.insertAdjacentHTML('beforeend', pairHTML);
-            // // 削除ボタンのイベントリスナーを追加
-            // pairsDiv.querySelectorAll('.remove-pair').forEach(button => {
-            //     button.addEventListener('click', function() {
-            //         this.parentNode.remove(); // 親要素を削除
-            //     });
-            // });
         }
         
         // 親和性行列の生成
@@ -148,6 +136,22 @@
                         matrix[i][j] += careerDiff*3;
                 }
             }
+        // 仲の良いペアと仲の悪いペアに基づいてaffinity_matrixを更新
+        goodPairs.forEach(pair => {
+            const index1 = people.findIndex(person => person.name === pair[0]);
+            const index2 = people.findIndex(person => person.name === pair[1]);
+            if (index1 !== -1 && index2 !== -1) {
+                matrix[index1][index2] = matrix[index2][index1] = -100; // 仲の良いペア
+            }
+        });
+
+        badPairs.forEach(pair => {
+            const index1 = people.findIndex(person => person.name === pair[0]);
+            const index2 = people.findIndex(person => person.name === pair[1]);
+            if (index1 !== -1 && index2 !== -1) {
+                matrix[index1][index2] = matrix[index2][index1] = 100; // 仲の悪いペア
+            }
+        });
 
             return matrix;
         }
@@ -287,6 +291,30 @@
                 });
                 return people;
             }
+            function collectGoodPairs() {
+                const pairs = [];
+                document.querySelectorAll('.good-pair-input').forEach(pairDiv => {
+                    const name1 = pairDiv.querySelector(`input[name^="goodName1"]`).value;
+                    const name2 = pairDiv.querySelector(`input[name^="goodName2"]`).value;
+                    if (name1 && name2) {
+                        pairs.push([name1, name2]);
+                    }
+                });
+                return pairs;
+            }
+
+            function collectBadPairs() {
+                const pairs = [];
+                document.querySelectorAll('.bad-pair-input').forEach(pairDiv => {
+                    const name1 = pairDiv.querySelector(`input[name^="badName1"]`).value;
+                    const name2 = pairDiv.querySelector(`input[name^="badName2"]`).value;
+                    if (name1 && name2) {
+                        pairs.push([name1, name2]);
+                    }
+                });
+                return pairs;
+            }
+
             function collectTableData() {
                 const numTables = parseInt(document.querySelector('input[name="num_tables"]').value, 10);
                 const tableCapacities = document.querySelector('input[name="table_capacities"]').value.split(',').map(capacity => parseInt(capacity, 10));
