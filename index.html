@@ -153,24 +153,51 @@
         function addParticipant() {
             const participantsDiv = document.getElementById("participants");
             const newIndex = document.querySelectorAll('.participant-input').length + 1;
-            const participantHTML = `
-                <div class="input-group">
-                    名前: <input type="text" name="name${newIndex}" required>
-                    部署: <input type="text" name="department${newIndex}" required>
-                    年次: <input type="number" name="career${newIndex}" min="0" required>
-                    <button type="button" class="delete-button">✕</button>
-                </div>
-            `;
-            const div = document.createElement('div');
-            div.innerHTML = participantHTML;
-            const deleteButton = div.querySelector('.delete-button');
+            
+            // 新しい入力グループのコンテナを作成
+            const newInputGroup = document.createElement('div');
+            newInputGroup.classList.add('input-group');
+
+            // 名前入力欄を作成
+            const nameInput = document.createElement('input');
+            nameInput.type = 'text';
+            nameInput.name = `name${newIndex}`;
+            nameInput.required = true;
+
+            // 部署入力欄を作成
+            const departmentInput = document.createElement('input');
+            departmentInput.type = 'text';
+            departmentInput.name = `department${newIndex}`;
+            departmentInput.required = true;
+
+            // 年次入力欄を作成
+            const careerInput = document.createElement('input');
+            careerInput.type = 'number';
+            careerInput.name = `career${newIndex}`;
+            careerInput.min = '0';
+            careerInput.required = true;
+
+            // 削除ボタンを作成
+            const deleteButton = document.createElement('button');
+            deleteButton.type = 'button';
+            deleteButton.classList.add('delete-button');
+            deleteButton.textContent = '✕';
             deleteButton.addEventListener('click', function() {
                 this.parentNode.remove();
-                updateParticipantCount(); // 参加者数を更新
+                updateParticipantCount();
             });
-            participantsDiv.appendChild(div.firstChild);
 
-            updateParticipantCount(); // 参加者数を更新
+            // 入力グループに要素を追加
+            newInputGroup.appendChild(nameInput);
+            newInputGroup.appendChild(departmentInput);
+            newInputGroup.appendChild(careerInput);
+            newInputGroup.appendChild(deleteButton);
+
+            // DOMに新しい入力グループを追加
+            participantsDiv.appendChild(newInputGroup);
+
+            // 参加者数を更新
+            updateParticipantCount();
         }
 
         function addPair(pairType) { // pairTypeは 'good' または 'bad' の文字列
