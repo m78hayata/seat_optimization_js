@@ -83,6 +83,12 @@
                 </div>
             `;
             participantsDiv.insertAdjacentHTML('beforeend', participantHTML);
+            // 削除ボタンのイベントリスナーを追加
+            participantsDiv.querySelectorAll('.remove-participant').forEach(button => {
+                button.addEventListener('click', function() {
+                    this.parentNode.remove(); // 親要素を削除
+                });
+            });
         }
         function addPair(pairType) { // pairTypeは 'good' または 'bad' の文字列
             const pairsDiv = document.getElementById(`${pairType}Pairs`);
@@ -94,6 +100,12 @@
                 </div>
             `;
             pairsDiv.insertAdjacentHTML('beforeend', pairHTML);
+            // 削除ボタンのイベントリスナーを追加
+            pairsDiv.querySelectorAll('.remove-pair').forEach(button => {
+                button.addEventListener('click', function() {
+                    this.parentNode.remove(); // 親要素を削除
+                });
+            });
         }
         
         // 親和性行列の生成
