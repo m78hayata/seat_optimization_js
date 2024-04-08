@@ -49,20 +49,16 @@
         }
 
         @media (max-width: 768px) {
-            /* スマートフォン表示時のスタイル調整 */
+            /* スマートフォン表示時のスタイリング */
             .input-group, .pair-group {
-                flex-direction: column;
-                gap: 5px; /* 折り返し時の要素間の間隔 */
+                flex-wrap: nowrap; /* 折り返さない */
+                gap: 5px; /* 要素間の間隔を狭める */
             }
-
+            
             .input-group input,
-            .pair-group input,
-            .delete-button {
-                width: auto; /* 折り返し時の入力欄の幅を自動に戻す */
-            }
-
-            .input-group, .pair-group {
-                margin-bottom: 15px; /* 参加者ごとの余白をスマートフォン用に調整 */
+            .pair-group input {
+                flex: 1; /* スマートフォンでは入力欄の幅を自動調整 */
+                min-width: 50px; /* 入力欄の最小幅を指定 */
             }
         }
     </style>
