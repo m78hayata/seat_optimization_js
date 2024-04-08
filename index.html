@@ -220,15 +220,15 @@
 
                     // キャリアの差に応じたスコア
                     const careerDiff = Math.abs(person1.career - person2.career);
-                    if (careerDiff > 30) {
+                    if (careerDiff >= 30) {
                         matrix[i][j] += career_cost*1.0;
-                    } else if (careerDiff > 20) {
+                    } else if (careerDiff >= 20) {
                         matrix[i][j] += career_cost*0.8;
-                    } else if (careerDiff > 10) {
+                    } else if (careerDiff >= 10) {
                         matrix[i][j] += career_cost*0.6;
-                    } else if (careerDiff > 5) {
+                    } else if (careerDiff >= 5) {
                         matrix[i][j] += career_cost*0.4;
-                    } else if (careerDiff > 3) {
+                    } else if (careerDiff >= 3) {
                         matrix[i][j] += career_cost*0.2;
                     } else if (careerDiff >= 1) {
                         matrix[i][j] += career_cost*0.1;
