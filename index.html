@@ -421,10 +421,11 @@
                 // 計算処理を非同期で実行する場合（例: setTimeoutを使用して非同期処理のシミュレート）
                 setTimeout(() => {
                     const initialSolution = createInitialSolution(people, tables);
-                    console.log(initialSolution);
                     const { bestSolution, bestCost } = simulatedAnnealing(initialSolution, affinityMatrix, people, 5000000, 50.0, 0.999999, mode);
-                    console.log(bestSolution);
                     // 結果の表示
+                    if (mode == "maximize") {
+                        bestCost = -1 * bestCost;
+                    }
                     displayResults(bestSolution, bestCost);
                 }, 0); // setTimeoutを使用する場合、実際のアプリケーションでは適切な非同期処理に置き換える
             });
