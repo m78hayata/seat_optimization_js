@@ -9,6 +9,23 @@
     <style>
         .participant-input, .pair-input { margin-bottom: 10px; }
         .container { margin-top: 20px; }
+        .delete-button {
+            display: inline-block;
+            margin-left: 20px;
+            width: 30px;
+            height: 30px;
+            border-radius: 15px; /* ボタンを丸くする */
+            border: none; /* 枠線を消す */
+            background-color: #cccccc; /* 薄いグレー色 */
+            color: white; /* 文字色 */
+            font-weight: bold; /* 文字を太く */
+            cursor: pointer; /* マウスカーソルをポインターに */
+        }
+
+        /* ボタンのホバー効果 */
+        .delete-button:hover {
+            background-color: #bbbbbb;
+        }
     </style>
 </head>
 <body>
@@ -80,16 +97,16 @@
                     名前: <input type="text" name="name${newIndex}" required>
                     部署: <input type="text" name="department${newIndex}" required>
                     年次: <input type="number" name="career${newIndex}" min="0" required>
-                    <button class="delete-button" remove-participant>✕</button>
+                    <button type="button" class="delete-button" onclick="this.parentNode.remove();">✕</button>
                 </div>
             `;
             participantsDiv.insertAdjacentHTML('beforeend', participantHTML);
-            // 削除ボタンのイベントリスナーを追加
-            participantsDiv.querySelectorAll('.remove-participant').forEach(button => {
-                button.addEventListener('click', function() {
-                    this.parentNode.remove(); // 親要素を削除
-                });
-            });
+            // // 削除ボタンのイベントリスナーを追加
+            // participantsDiv.querySelectorAll('.remove-participant').forEach(button => {
+            //     button.addEventListener('click', function() {
+            //         this.parentNode.remove(); // 親要素を削除
+            //     });
+            // });
         }
         function addPair(pairType) { // pairTypeは 'good' または 'bad' の文字列
             const pairsDiv = document.getElementById(`${pairType}Pairs`);
@@ -98,16 +115,16 @@
                 <div class="${pairType}-pair-input">
                     名前1: <input type="text" name="${pairType}Name1_${newIndex}">
                     名前2: <input type="text" name="${pairType}Name2_${newIndex}">
-                    <button class="delete-button" remove-pair>✕</button>
+                    <button type="button" class="delete-button" onclick="this.parentNode.remove();">✕</button>
                 </div>
             `;
             pairsDiv.insertAdjacentHTML('beforeend', pairHTML);
-            // 削除ボタンのイベントリスナーを追加
-            pairsDiv.querySelectorAll('.remove-pair').forEach(button => {
-                button.addEventListener('click', function() {
-                    this.parentNode.remove(); // 親要素を削除
-                });
-            });
+            // // 削除ボタンのイベントリスナーを追加
+            // pairsDiv.querySelectorAll('.remove-pair').forEach(button => {
+            //     button.addEventListener('click', function() {
+            //         this.parentNode.remove(); // 親要素を削除
+            //     });
+            // });
         }
         
         // 親和性行列の生成
@@ -316,24 +333,5 @@
             });
         });
     </script>
-    <style>
-        .delete-button {
-            display: inline-block;
-            margin-left: 20px;
-            width: 30px;
-            height: 30px;
-            border-radius: 15px; /* ボタンを丸くする */
-            border: none; /* 枠線を消す */
-            background-color: #cccccc; /* 薄いグレー色 */
-            color: white; /* 文字色 */
-            font-weight: bold; /* 文字を太く */
-            cursor: pointer; /* マウスカーソルをポインターに */
-        }
-
-        /* ボタンのホバー効果 */
-        .delete-button:hover {
-            background-color: #bbbbbb;
-        }
-    </style>
 </body>
 </html>
