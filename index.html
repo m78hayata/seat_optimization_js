@@ -90,6 +90,7 @@
                 <!-- 参加者情報入力欄がここに挿入されます -->
             </div>
             <button type="button" class="btn btn-primary mb-3" id="addParticipant">参加者追加</button>
+            <span id="participantCount">合計: 0人</span>
             <div id="goodPairs" class="mb-3">
                 <h4>仲良し度の高いペア</h4>
                 <!-- 仲の良いペアの入力フィールドがここに挿入されます -->
@@ -143,6 +144,10 @@
                 }
             }
         }
+        function updateParticipantCount() {
+            const participantCount = document.querySelectorAll('.participant-input').length;
+            document.getElementById("participantCount").textContent = `合計: ${participantCount}人`;
+        }
 
         function addParticipant() {
             const participantsDiv = document.getElementById("participants");
@@ -165,10 +170,11 @@
                 <div class="${pairType}-pair-input pair-group">
                     名前1: <input type="text" name="${pairType}Name1_${newIndex}">
                     名前2: <input type="text" name="${pairType}Name2_${newIndex}">
-                    <button type="button" class="delete-button" onclick="this.parentNode.remove();">✕</button>
+                    <button type="button" class="delete-button" onclick="this.parentNode.remove(); updateParticipantCount();">✕</button>
                 </div>
             `;
             pairsDiv.insertAdjacentHTML('beforeend', pairHTML);
+            updateParticipantCount();
         }
         
         // 親和性行列の生成
