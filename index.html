@@ -90,7 +90,7 @@
                 <!-- 参加者情報入力欄がここに挿入されます -->
             </div>
             <button type="button" class="btn btn-primary mb-3" id="addParticipant">参加者追加</button>
-
+            <span id="participantCount">合計: 0人</span>
             <div id="goodPairs" class="mb-3">
                 <h4>仲良し度の高いペア</h4>
                 <!-- 仲の良いペアの入力フィールドがここに挿入されます -->
@@ -144,7 +144,12 @@
                 }
             }
         }
-        
+
+        function updateParticipantCount() {
+            const participantCount = document.querySelectorAll('.participant-input').length;
+            document.getElementById("participantCount").textContent = `合計: ${participantCount}人`;
+        }
+
         function addParticipant() {
             const participantsDiv = document.getElementById("participants");
             const newIndex = document.querySelectorAll('.participant-input').length + 1;
@@ -157,7 +162,16 @@
             </div>
             `;
             participantsDiv.insertAdjacentHTML('beforeend', participantHTML);
+
+            // 削除ボタンのイベントリスナーにもupdateParticipantCountを呼び出す処理を追加
+            participantHTML.querySelector('.delete-button').addEventListener('click', function() {
+                this.parentNode.remove();
+                updateParticipantCount(); // 参加者数を更新
+            });
+
+            updateParticipantCount(); // 参加者数を更新
         }
+
         function addPair(pairType) { // pairTypeは 'good' または 'bad' の文字列
             const pairsDiv = document.getElementById(`${pairType}Pairs`);
             const newIndex = document.querySelectorAll(`.${pairType}-pair-input`).length + 1;
@@ -331,6 +345,7 @@
         }
 
         document.addEventListener('DOMContentLoaded', function() {
+            updateParticipantCount();
             document.getElementById("addParticipant").addEventListener("click", addParticipant);
             document.getElementById("addGoodPair").addEventListener("click", () => addPair('good'));
             document.getElementById("addBadPair").addEventListener("click", () => addPair('bad'));
