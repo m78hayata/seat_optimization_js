@@ -219,18 +219,34 @@
             }
         }
 
-        function generateNewSolution(currentSolution, people) {
-            // 新しい解のスケルトンを作成
-            let newSolution = currentSolution.map(table => new Table(table.capacity));
-
-            // 人々をランダムにテーブルに割り当てる（シンプルな例として）
-            people.forEach(person => {
-                const tableIndex = Math.floor(Math.random() * newSolution.length);
-                newSolution[tableIndex].addPerson(person);
+        function generateNewSolution(currentSolution) {
+            // 現在の解の深いコピーを作成
+            let newSolution = currentSolution.map(table => {
+                return new Table(table.capacity, table.seats.slice());
             });
 
-            // ここに席の交換ロジックを適用することも可能ですが、
-            // この例ではシンプルさを保つために省略しています。
+            // 全席を平坦化した配列を作成
+            let allSeats = [];
+            newSolution.forEach((table, tableIndex) => {
+                table.seats.forEach((seat, seatIndex) => {
+                    allSeats.push({tableIndex, seatIndex, person: seat});
+                });
+            });
+
+            // 全席からランダムに2つの席を選ぶ
+            if (allSeats.length > 1) {
+                let index1 = Math.floor(Math.random() * allSeats.length);
+                let index2 = Math.floor(Math.random() * allSeats.length);
+                while (index1 === index2) {
+                    // 異なる席が選ばれるまで選び直し
+                    index2 = Math.floor(Math.random() * allSeats.length);
+                }
+
+                // 選んだ2つの席の人物を交換
+                let seat1 = allSeats[index1];
+                let seat2 = allSeats[index2];
+                [newSolution[seat1.tableIndex].seats[seat1.seatIndex], newSolution[seat2.tableIndex].seats[seat2.seatIndex]] = [newSolution[seat2.tableIndex].seats[seat2.seatIndex], newSolution[seat1.tableIndex].seats[seat1.seatIndex]];
+            }
 
             return newSolution;
         }
