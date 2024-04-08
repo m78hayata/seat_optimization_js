@@ -296,7 +296,7 @@
                 const { tables } = collectTableData();
                 const affinityMatrix = generateAffinityMatrix(people);
                 const initialSolution = createInitialSolution(people, tables);
-                const { bestSolution, bestCost } = simulatedAnnealing(initialSolution, affinityMatrix, people, 1000, 100.0, 0.99);
+                const { bestSolution, bestCost } = simulatedAnnealing(initialSolution, affinityMatrix, people, 100000, 100.0, 0.999);
 
                 displayResults(bestSolution, bestCost);
             });
