@@ -80,6 +80,7 @@
                     名前: <input type="text" name="name${newIndex}" required>
                     部署: <input type="text" name="department${newIndex}" required>
                     年次: <input type="number" name="career${newIndex}" min="0" required>
+                    <button type="button" class="btn btn-danger remove-participant">削除</button>
                 </div>
             `;
             participantsDiv.insertAdjacentHTML('beforeend', participantHTML);
@@ -97,6 +98,7 @@
                 <div class="${pairType}-pair-input">
                     名前1: <input type="text" name="${pairType}Name1_${newIndex}">
                     名前2: <input type="text" name="${pairType}Name2_${newIndex}">
+                    <button type="button" class="btn btn-danger remove-pair">削除</button>
                 </div>
             `;
             pairsDiv.insertAdjacentHTML('beforeend', pairHTML);
