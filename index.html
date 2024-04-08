@@ -34,6 +34,33 @@
             .delete-button {
                 margin-top: 10px;
             }
+            .input-group {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .input-group input[type="text"],
+            .input-group input[type="number"],
+            .input-group .delete-button {
+                margin-right: 0;
+                margin-bottom: 10px;
+            }
+        }
+        /* スタイルの基本設定 */
+        .input-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .input-group input[type="text"],
+        .input-group input[type="number"] {
+            margin-right: 10px;
+            flex-grow: 1; /* 入力フィールドを柔軟に伸ばす */
+        }
+
+        .input-group .delete-button {
+            flex-shrink: 0; /* 削除ボタンのサイズを固定 */
         }
 
         .participant-input, .pair-input { margin-bottom: 10px; }
@@ -133,7 +160,7 @@
             const participantsDiv = document.getElementById("participants");
             const newIndex = document.querySelectorAll('.participant-input').length + 1;
             const participantHTML = `
-                <div class="participant-input">
+                <div class="participant-input "input-group">
                     名前: <input type="text" name="name${newIndex}" required>
                     部署: <input type="text" name="department${newIndex}" required>
                     年次: <input type="number" name="career${newIndex}" min="0" required>
@@ -146,7 +173,7 @@
             const pairsDiv = document.getElementById(`${pairType}Pairs`);
             const newIndex = document.querySelectorAll(`.${pairType}-pair-input`).length + 1;
             const pairHTML = `
-                <div class="${pairType}-pair-input">
+                <div class="${pairType}-pair-input" "input-group">
                     名前1: <input type="text" name="${pairType}Name1_${newIndex}">
                     名前2: <input type="text" name="${pairType}Name2_${newIndex}">
                     <button type="button" class="delete-button" onclick="this.parentNode.remove();">✕</button>
