@@ -51,9 +51,8 @@
 
     <script>
         class Person {
-            constructor(name, gender, department, career) {
+            constructor(name, department, career) {
                 this.name = name;
-                this.gender = gender;
                 this.department = department;
                 this.career = career;
             }
@@ -251,10 +250,9 @@
                 const people = [];
                 document.querySelectorAll('.participant-input').forEach((participantDiv, index) => {
                     const name = participantDiv.querySelector(`input[name="name${index + 1}"]`).value;
-                    const gender = participantDiv.querySelector(`select[name="gender${index + 1}"]`).value;
                     const department = participantDiv.querySelector(`input[name="department${index + 1}"]`).value;
                     const career = parseInt(participantDiv.querySelector(`input[name="career${index + 1}"]`).value, 10);
-                    people.push(new Person(name, gender, department, career));
+                    people.push(new Person(name, department, career));
                 });
                 return people;
             }
