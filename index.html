@@ -240,11 +240,11 @@
             document.getElementById("addParticipant").addEventListener("click", addParticipant);
             document.getElementById("addGoodPair").addEventListener("click", () => addPair('good'));
             document.getElementById("addBadPair").addEventListener("click", () => addPair('bad'));
-            // document.getElementById('clearResults').addEventListener('click', function(event) {
-            //     event.preventDefault(); // ページ遷移を防止
-            //     document.getElementById('result').innerHTML = ''; // 結果欄のみクリア
-            //     this.style.display = 'none'; // クリアボタンを非表示にする
-            // });
+            document.getElementById('clearResults').addEventListener('click', function(event) {
+                event.preventDefault(); // ページ遷移を防止
+                document.getElementById('result').innerHTML = ''; // 結果欄のみクリア
+                this.style.display = 'none'; // クリアボタンを非表示にする
+            });
 
             function collectPeopleData() {
                 const people = [];
@@ -278,7 +278,7 @@
                 resultDiv.appendChild(costDiv);
 
                 // 結果が表示されたので、クリアボタンを表示
-                // document.getElementById('clearResults').style.display = 'inline-block';
+                document.getElementById('clearResults').style.display = 'inline-block';
             }
 
 
