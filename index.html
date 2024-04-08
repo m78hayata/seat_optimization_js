@@ -190,12 +190,12 @@
 
                     // 部署が異なる場合のスコア
                     if (person1.department !== person2.department) {
-                        matrix[i][j] += 20;
+                        matrix[i][j] += 50;
                     }
 
                     // キャリアの差に応じたスコア
                     const careerDiff = Math.abs(person1.career - person2.career);
-                        matrix[i][j] += careerDiff*2;
+                        matrix[i][j] += careerDiff;
                 }
             }
             // 仲の良いペアと仲の悪いペアに基づいてaffinity_matrixを更新
