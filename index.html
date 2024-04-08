@@ -273,6 +273,11 @@
                 let newSolution = generateNewSolution(currentSolution);
                 let newCost = calculateCost(newSolution, affinityMatrix, people);
 
+                // ランダムモードの場合、最初に生成したランダム解をそのまま最適解として返す
+                if (mode === "random") {
+                    return { bestSolution: initialSolution, bestCost: calculateCost(initialSolution, affinityMatrix, people) };
+                }
+
                 let costDifference = newCost - currentCost;
                 if (mode === "maximize") {
                     costDifference = -costDifference; // コスト最大化の場合、コスト差の符号を反転
@@ -291,12 +296,6 @@
 
                 temp *= coolingRate;
             }
-
-            // ランダムモードの場合、最初に生成したランダム解をそのまま最適解として返す
-            if (mode === "random") {
-                return { bestSolution: initialSolution, bestCost: calculateCost(initialSolution, affinityMatrix, people) };
-            }
-
             return { bestSolution, bestCost };
         }
         
@@ -415,8 +414,9 @@
                 // 計算処理を非同期で実行する場合（例: setTimeoutを使用して非同期処理のシミュレート）
                 setTimeout(() => {
                     const initialSolution = createInitialSolution(people, tables);
+                    console.log(initialSolution);
                     const { bestSolution, bestCost } = simulatedAnnealing(initialSolution, affinityMatrix, people, 1000000, 30.0, 0.999999, mode);
-                    
+                    console.log(bestSolution);
                     // 結果の表示
                     displayResults(bestSolution, bestCost);
                 }, 0); // setTimeoutを使用する場合、実際のアプリケーションでは適切な非同期処理に置き換える
