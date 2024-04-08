@@ -79,14 +79,8 @@
             const participantHTML = `
                 <div class="participant-input">
                     名前: <input type="text" name="name${newIndex}" required>
-                    性別: <select name="gender${newIndex}" required>
-                        <option value="">選択...</option>
-                        <option value="男性">男性</option>
-                        <option value="女性">女性</option>
-                        <option value="その他">その他</option>
-                    </select>
                     部署: <input type="text" name="department${newIndex}" required>
-                    キャリア: <input type="number" name="career${newIndex}" min="0" required>
+                    年次: <input type="number" name="career${newIndex}" min="0" required>
                 </div>
             `;
             participantsDiv.insertAdjacentHTML('beforeend', participantHTML);
@@ -121,13 +115,7 @@
 
                     // キャリアの差に応じたスコア
                     const careerDiff = Math.abs(person1.career - person2.career);
-                    if (careerDiff === 1) {
-                        matrix[i][j] += 3;
-                    } else if (careerDiff >= 10) {
-                        matrix[i][j] += 5;
-                    } else {
-                        matrix[i][j] += 10;
-                    }
+                        matrix[i][j] += careerDiff*3;
                 }
             }
 
@@ -253,6 +241,13 @@
             document.getElementById("addParticipant").addEventListener("click", addParticipant);
             document.getElementById("addGoodPair").addEventListener("click", () => addPair('good'));
             document.getElementById("addBadPair").addEventListener("click", () => addPair('bad'));
+            document.getElementById('clearResults').addEventListener('click', function() {
+                // 結果をクリア
+                document.getElementById('result').innerHTML = '';
+
+                // クリアボタンを非表示にする
+                this.style.display = 'none';
+            });
 
             function collectPeopleData() {
                 const people = [];
@@ -276,8 +271,6 @@
                 resultDiv.innerHTML = ''; // Clear previous results
 
                 bestSolution.forEach((table, index) => {
-                    // table.seats は Person インスタンスの配列です。
-                    // Person インスタンスの name プロパティを取り出して結合します。
                     const names = table.seats.map(person => person.name).join(', ');
                     const tableDiv = document.createElement('div');
                     tableDiv.textContent = `Table ${index + 1}: ${names}`;
@@ -287,7 +280,11 @@
                 const costDiv = document.createElement('div');
                 costDiv.textContent = `Total Cost: ${bestCost}`;
                 resultDiv.appendChild(costDiv);
+
+                // 結果が表示されたので、クリアボタンを表示
+                document.getElementById('clearResults').style.display = 'inline-block';
             }
+
 
             document.getElementById('seatingForm').addEventListener('submit', function(event) {
                 event.preventDefault();
