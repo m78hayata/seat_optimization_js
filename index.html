@@ -298,14 +298,21 @@
 
             document.getElementById('seatingForm').addEventListener('submit', function(event) {
                 event.preventDefault();
+                // 結果欄に「計算中...」を表示
+                const resultDiv = document.getElementById('result');
+                resultDiv.innerHTML = '計算中...';
                 // フォーム送信時の処理
                 const people = collectPeopleData();
                 const { tables } = collectTableData();
                 const affinityMatrix = generateAffinityMatrix(people);
-                const initialSolution = createInitialSolution(people, tables);
-                const { bestSolution, bestCost } = simulatedAnnealing(initialSolution, affinityMatrix, people, 100000, 100.0, 0.999);
-
-                displayResults(bestSolution, bestCost);
+                // 計算処理を非同期で実行する場合（例: setTimeoutを使用して非同期処理のシミュレート）
+                setTimeout(() => {
+                    const initialSolution = createInitialSolution(people, tables);
+                    const { bestSolution, bestCost } = simulatedAnnealing(initialSolution, affinityMatrix, people, 1000000, 30.0, 0.999999);
+                    
+                    // 結果の表示
+                    displayResults(bestSolution, bestCost);
+                }, 0); // setTimeoutを使用する場合、実際のアプリケーションでは適切な非同期処理に置き換える
             });
         });
     </script>
