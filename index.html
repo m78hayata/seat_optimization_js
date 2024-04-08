@@ -161,6 +161,7 @@
             </div>
             `;
             participantsDiv.insertAdjacentHTML('beforeend', participantHTML);
+            updateParticipantCount();
         }
 
         function addPair(pairType) { // pairTypeは 'good' または 'bad' の文字列
@@ -174,7 +175,6 @@
                 </div>
             `;
             pairsDiv.insertAdjacentHTML('beforeend', pairHTML);
-            updateParticipantCount();
         }
         
         // 親和性行列の生成
@@ -422,7 +422,7 @@
                 setTimeout(() => {
                     const initialSolution = createInitialSolution(people, tables);
                     console.log(initialSolution);
-                    const { bestSolution, bestCost } = simulatedAnnealing(initialSolution, affinityMatrix, people, 10000000, 50.0, 0.999999, mode);
+                    const { bestSolution, bestCost } = simulatedAnnealing(initialSolution, affinityMatrix, people, 5000000, 50.0, 0.999999, mode);
                     console.log(bestSolution);
                     // 結果の表示
                     displayResults(bestSolution, bestCost);
